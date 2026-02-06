@@ -1,0 +1,43 @@
+name: Codex Task
+description: Task for Codex (1 issue = 1 PR)
+title: "[Trailboard] "
+labels: ["codex"]
+body:
+  - type: textarea
+    id: goal
+    attributes:
+      label: Goal
+      description: What outcome do you want?
+      placeholder: e.g., Add a search box to filter cards by title/tag.
+    validations:
+      required: true
+
+  - type: textarea
+    id: ac
+    attributes:
+      label: Acceptance Criteria
+      description: Concrete conditions to be satisfied.
+      placeholder: |
+        - Typing filters cards instantly
+        - No new dependencies
+        - Build passes
+    validations:
+      required: true
+
+  - type: textarea
+    id: oos
+    attributes:
+      label: Out of scope
+      description: Explicitly what not to do.
+      placeholder: e.g., No backend, no persistence, no design overhaul.
+    validations:
+      required: true
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes
+      description: Any hints, constraints, or links.
+      placeholder: Optional
+    validations:
+      required: false
