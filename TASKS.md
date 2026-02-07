@@ -12,15 +12,16 @@ You are Codex working in this repo as an autonomous contributor.
 
 ## Required workflow
 - Read the Issue.
-- Confirm the Issue number explicitly before branch creation (for this task: `#19`).
+- Confirm the Issue number explicitly before branch creation.
 - Create a branch: `codex/<issue-number>-<short-slug>`
 - Make changes.
 - Run:
   - `npm run build`
   - (optional) `npm run lint` if present
-- Open a PR with the PR template fully completed.
+- Do NOT run any Git commands (`git add/commit/push`) and do NOT create/update Pull Requests.
+- After a successful build, output the PR body text using the PR template sections (see below).
 
-## PR description must include
+## PR body output must include
 - Summary (what & why)
 - What changed (bullet list)
 - How to verify (exact commands + manual steps)
@@ -47,3 +48,4 @@ Body:
 ## If you are stuck
 - Stop and ask for clarification in the PR description as "Open Questions"
 - Do not implement speculative features
+
