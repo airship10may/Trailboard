@@ -30,3 +30,41 @@ Codex向けの正本ルールは `TASKS.md` を参照。
 npm i
 npm run dev
 ```
+
+### ビルド確認
+
+```bash
+npm run build
+```
+
+## WSL でのセットアップ（Windows想定）
+- 推奨環境は WSL2（Ubuntu） + Node.js 18+（20でもOK）
+- パッケージマネージャーは npm を使用（yarn/pnpmは使わない）
+- 作業開始時はリポジトリ直下で `npm i` を実行
+
+## Codex CLI 自律ワークフロー（運用補足）
+1. 人間が Issue で目的・受け入れ条件・範囲を定義する
+2. Codex がブランチ（`codex/<issue-number>-<short-slug>`）を作成して実装する
+3. Codex が `npm run build` で検証し、PRテンプレートを埋めてPRを作成する
+4. 人間はオブザーバー／レビュアーとして差分と検証手順を確認し、承認または修正依頼を行う
+
+## CI / GitHub Pages メモ
+- CI は GitHub Actions（`.github/workflows/ci.yml`）で実行
+- トリガーは `pull_request` と `main` への `push`
+- CI ジョブでは `npm ci` → `npm run build` → `npm run lint` を実施
+- 現在、このリポジトリには GitHub Pages へのデプロイ用 workflow は未定義
+
+## Codex 起動時の定型プロンプト（コピー用）
+
+```text
+Follow TASKS.md strictly.
+Follow CONTRIBUTING.md strictly.
+
+Work in a new branch.
+Keep changes minimal and within the Issue scope.
+
+Run npm run build before opening a PR.
+Open a PR using the provided template with clear verification steps.
+
+If any requirement is unclear, ask before making assumptions.
+```
