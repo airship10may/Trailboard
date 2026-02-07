@@ -21,3 +21,10 @@
 - List only verification steps actually performed.
 - Check only checklist boxes that truly apply.
 - If there are no risks or trade-offs, write `None`.
+
+## Post-merge cleanup workflow
+- Run `git cleanup`.
+- If `git cleanup` is unavailable, run:
+  - `git checkout main`
+  - `git pull --ff-only`
+  - `git fetch --prune`
