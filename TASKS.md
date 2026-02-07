@@ -12,6 +12,7 @@ You are Codex working in this repo as an autonomous contributor.
 
 ## Required workflow
 - Read the Issue.
+- Confirm the Issue number explicitly before branch creation (for this task: `#19`).
 - Create a branch: `codex/<issue-number>-<short-slug>`
 - Make changes.
 - Run:
