@@ -11,6 +11,7 @@
 - Avoid clever abstractions
 - Keep UI minimal and modern
 
+
 ## PR requirements
 - Follow PR template
 - Include "How to verify"
@@ -29,9 +30,23 @@
   - `git pull --ff-only`
   - `git fetch --prune`
 
-## Codex local workflow to PR
-- Confirm the Issue number explicitly first (for this task: `#19`), then create the branch as `codex/<issue-number>-<short-slug>`.
-- Push the branch first time with `git push -u origin HEAD`.
-- Create the PR with `gh pr create`.
-- Ensure the PR body follows the PR template and includes `How to verify`.
-- If `gh` is not authenticated or push fails, stop and ask.
+## Codex local workflow (implementation boundary)
+
+Codex is responsible for implementation and ensuring the project builds successfully.
+
+- Confirm the Issue number explicitly, then create a branch as `codex/<issue-number>-<short-slug>`.
+- Make changes within the Issue scope.
+- Run `npm run build` and confirm it succeeds.
+- Do NOT perform any Git operations (no `git add/commit/push`) and do NOT create/update Pull Requests.
+- After the build succeeds, output the work summary using the PR template sections(.github
+/PULL_REQUEST_TEMPLATE.md):
+  - Summary
+  - What changed
+  - How to verify
+  - Scope / Out of scope
+  - Risks / trade-offs
+  - Follow-ups (if any)
+  - Open Questions (if any)
+
+A human will run `./scripts/publish_commit.sh` to commit and push, then open the PR in GitHub UI.
+
