@@ -83,3 +83,9 @@ sudo apt update
 sudo apt install gh -y
 gh --version
 ```
+
+`gh` を使用する前に、以下のコマンドで認証状態を確認する。
+
+```bash
+gh auth status
+```
