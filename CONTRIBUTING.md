@@ -30,6 +30,7 @@
   - `git fetch --prune`
 
 ## Codex local workflow to PR
+- Confirm the Issue number explicitly first (for this task: `#19`), then create the branch as `codex/<issue-number>-<short-slug>`.
 - Push the branch first time with `git push -u origin HEAD`.
 - Create the PR with `gh pr create`.
 - Ensure the PR body follows the PR template and includes `How to verify`.
