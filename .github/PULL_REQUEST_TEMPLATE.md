@@ -1,8 +1,8 @@
-## Summary
-- What did you change?
-- Why was it necessary?
+## 概要
+- 何を変更しましたか？
+- なぜその変更が必要でしたか？
 
-## What changed
+## 変更内容
 - [ ] UI
 - [ ] Routing
 - [ ] State management
@@ -10,28 +10,28 @@
 - [ ] Config/Tooling (only if requested)
 - [ ] Other:
 
-## How to verify
+## 検証方法
 1)
 2)
 3)
 
-Commands:
+コマンド:
 - `npm i`
 - `npm run build`
 - `npm run dev`
 
-## Scope / Out of scope
-- In scope:
-- Out of scope:
+## スコープ / スコープ外
+- スコープ内:
+- スコープ外:
 
-## Risks / trade-offs
+## リスク / トレードオフ
 - 
 
-## Screenshots (optional)
+## スクリーンショット（任意）
 - 
 
-## Follow-ups
+## フォローアップ
 - 
 
-## Open Questions
+## 未解決の質問
 - 
