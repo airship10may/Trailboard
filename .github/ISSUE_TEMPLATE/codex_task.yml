@@ -1,43 +1,43 @@
 name: Codex Task
-description: Task for Codex (1 issue = 1 PR)
+description: Codex向けタスク（1 issue = 1 PR）
 title: "[Trailboard] "
 labels: ["codex"]
 body:
   - type: textarea
     id: goal
     attributes:
-      label: Goal
-      description: What outcome do you want?
-      placeholder: e.g., Add a search box to filter cards by title/tag.
+      label: 目的
+      description: どのような成果を求めますか？
+      placeholder: 例: タイトル/タグでカードを絞り込める検索ボックスを追加する。
     validations:
       required: true
 
   - type: textarea
     id: ac
     attributes:
-      label: Acceptance Criteria
-      description: Concrete conditions to be satisfied.
+      label: 受け入れ条件
+      description: 満たすべき具体的な条件。
       placeholder: |
-        - Typing filters cards instantly
-        - No new dependencies
-        - Build passes
+        - 入力すると即時にカードが絞り込まれる
+        - 新しい依存は追加しない
+        - ビルドが通る
     validations:
       required: true
 
   - type: textarea
     id: oos
     attributes:
-      label: Out of scope
-      description: Explicitly what not to do.
-      placeholder: e.g., No backend, no persistence, no design overhaul.
+      label: スコープ外
+      description: 対象外とする内容を明示する。
+      placeholder: 例: バックエンドなし、永続化なし、デザイン全面改修なし。
     validations:
       required: true
 
   - type: textarea
     id: notes
     attributes:
-      label: Notes
-      description: Any hints, constraints, or links.
-      placeholder: Optional
+      label: 補足
+      description: ヒント、制約、関連リンクなど。
+      placeholder: 任意
     validations:
       required: false
