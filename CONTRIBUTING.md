@@ -15,3 +15,9 @@
 - Follow PR template
 - Include "How to verify"
 - Keep changes scoped to the issue
+
+## How Codex fills the PR template
+- Write `Summary` as factual `what + why` only.
+- List only verification steps actually performed.
+- Check only checklist boxes that truly apply.
+- If there are no risks or trade-offs, write `None`.
