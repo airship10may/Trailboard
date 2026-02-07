@@ -19,7 +19,8 @@ You are Codex working in this repo as an autonomous contributor.
   - `npm run build`
   - (optional) `npm run lint` if present
 - Do NOT run any Git commands (`git add/commit/push`) and do NOT create/update Pull Requests.
-- After a successful build, output the PR body text using the PR template sections (see below).
+- After a successful build, output the PR body text using the PR template sections (.github
+/PULL_REQUEST_TEMPLATE.md).
 
 ## PR body output must include
 - Summary (what & why)
@@ -48,4 +49,5 @@ Body:
 ## If you are stuck
 - Stop and ask for clarification in the PR description as "Open Questions"
 - Do not implement speculative features
+
 
