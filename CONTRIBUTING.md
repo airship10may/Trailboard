@@ -28,3 +28,9 @@
   - `git checkout main`
   - `git pull --ff-only`
   - `git fetch --prune`
+
+## Codex local workflow to PR
+- Push the branch first time with `git push -u origin HEAD`.
+- Create the PR with `gh pr create`.
+- Ensure the PR body follows the PR template and includes `How to verify`.
+- If `gh` is not authenticated or push fails, stop and ask.
