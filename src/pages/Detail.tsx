@@ -1,9 +1,20 @@
-import { Link, useParams } from "react-router-dom";
-import { getTrail } from "../data/trails";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { deleteTrail, getTrail } from "../data/trails";
 
 export default function Detail() {
+  const navigate = useNavigate();
   const { id } = useParams();
   const t = id ? getTrail(id) : undefined;
+
+  function handleDelete() {
+    if (!id) return;
+
+    const confirmed = window.confirm("Delete this card?");
+    if (!confirmed) return;
+
+    deleteTrail(id);
+    navigate("/", { replace: true });
+  }
 
   if (!t) {
     return (
@@ -54,6 +65,13 @@ export default function Detail() {
           >
             Settings
           </Link>
+          <button
+            type="button"
+            onClick={handleDelete}
+            className="rounded-xl border border-zinc-200 px-4 py-2 text-sm text-zinc-600 hover:bg-zinc-100 dark:border-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-800"
+          >
+            Delete
+          </button>
         </div>
       </section>
     </div>
