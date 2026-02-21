@@ -8,7 +8,7 @@
 
 ## Responsibility boundary (Codex)
 - You are responsible for implementation and confirming `npm run build` succeeds.
-- You must NOT perform Git operations (`git add`, `git commit`, `git push`) and must NOT create or update PRs.
+- You may create/switch branches, but must NOT run git add, git commit, git push, or create/update PRs.
 - After a successful build, output PR body text using this structure:
   - Summary
   - What changed
