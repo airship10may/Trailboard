@@ -123,3 +123,9 @@ chmod +x scripts/publish_commit.sh
  - Vibe Coding は実行環境（WSL / DNS / 認証 / ネットワーク）に強く依存する
  - 「AIができること」と「任せない方がよい境界」がある
  - 完全自動化に固執せず、不安定な外界接続を人間側に寄せ、手動部分は1コマンドに圧縮する
+
+## Github Pages(CD)
+ - CDを実装し、push、mergeされた反映は下記のリンクから参照可能。
+```link
+https://airship10may.github.io/
+```
