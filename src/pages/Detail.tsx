@@ -1,13 +1,83 @@
 import { useState } from "react";
+import type { FormEvent } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { deleteTrail, getTrail } from "../data/trails";
+import {
+  deleteTrail,
+  getTrail,
+  parseDurationToMinutes,
+  parseTags,
+  updateTrail,
+} from "../data/trails";
 
 export default function Detail() {
   const navigate = useNavigate();
   const { id } = useParams();
   const trail = id ? getTrail(id) : undefined;
   const [deletingTrailId, setDeletingTrailId] = useState<string | null>(null);
+  const [editingTrailId, setEditingTrailId] = useState<string | null>(null);
+  const [titleInput, setTitleInput] = useState("");
+  const [descriptionInput, setDescriptionInput] = useState("");
+  const [tagsInput, setTagsInput] = useState("");
+  const [durationInput, setDurationInput] = useState("");
+  const [formError, setFormError] = useState<string | null>(null);
   const isDeleting = Boolean(id && deletingTrailId === id);
+  const isEditing = Boolean(id && editingTrailId === id);
+
+  function resetEditForm() {
+    setTitleInput("");
+    setDescriptionInput("");
+    setTagsInput("");
+    setDurationInput("");
+    setFormError(null);
+  }
+
+  function handleStartEdit() {
+    if (!id || !trail) return;
+
+    setEditingTrailId(id);
+    setTitleInput(trail.title);
+    setDescriptionInput(trail.subtitle === "No description" ? "" : trail.subtitle);
+    setTagsInput(trail.tags.map((tag) => `#${tag}`).join(" "));
+    setDurationInput(trail.minutes > 0 ? String(trail.minutes) : "");
+    setFormError(null);
+  }
+
+  function handleCancelEdit() {
+    setEditingTrailId(null);
+    resetEditForm();
+  }
+
+  function handleSaveEdit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!id || !trail) return;
+
+    const title = titleInput.trim();
+    if (!title) {
+      setFormError("Title is required.");
+      return;
+    }
+
+    const minutes = parseDurationToMinutes(durationInput);
+    if (durationInput.trim() && minutes === null) {
+      setFormError("Duration must be a number or format like 12m.");
+      return;
+    }
+
+    const updated = updateTrail(id, {
+      title,
+      subtitle: descriptionInput.trim() || "No description",
+      tags: parseTags(tagsInput),
+      minutes: minutes ?? 0,
+    });
+
+    if (!updated) {
+      setFormError("Card not found.");
+      return;
+    }
+
+    setEditingTrailId(null);
+    resetEditForm();
+  }
 
   function handleDelete() {
     if (!id || isDeleting) return;
@@ -71,6 +141,13 @@ export default function Detail() {
           </Link>
           <button
             type="button"
+            onClick={handleStartEdit}
+            className="rounded-xl border border-zinc-200 px-4 py-2 text-sm text-zinc-600 hover:bg-zinc-100 dark:border-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-800"
+          >
+            Edit
+          </button>
+          <button
+            type="button"
             onClick={handleDelete}
             disabled={isDeleting}
             className="rounded-xl border border-zinc-200 px-4 py-2 text-sm text-zinc-600 hover:bg-zinc-100 dark:border-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-800"
@@ -78,6 +155,74 @@ export default function Detail() {
             {isDeleting ? "Deleting..." : "Delete"}
           </button>
         </div>
+
+        {isEditing && (
+          <form onSubmit={handleSaveEdit} className="mt-6 space-y-3 rounded-2xl border border-zinc-200 p-4 dark:border-zinc-800">
+            <h2 className="text-sm font-semibold">Edit card</h2>
+            <label className="block text-sm">
+              <span className="mb-1 block text-zinc-700 dark:text-zinc-300">
+                Title *
+              </span>
+              <input
+                value={titleInput}
+                onChange={(event) => setTitleInput(event.target.value)}
+                className="w-full rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm outline-none focus:border-zinc-400 focus:ring-2 focus:ring-zinc-200 dark:border-zinc-800 dark:bg-zinc-950 dark:focus:border-zinc-600 dark:focus:ring-zinc-800"
+              />
+            </label>
+            <label className="block text-sm">
+              <span className="mb-1 block text-zinc-700 dark:text-zinc-300">
+                Description
+              </span>
+              <input
+                value={descriptionInput}
+                onChange={(event) => setDescriptionInput(event.target.value)}
+                className="w-full rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm outline-none focus:border-zinc-400 focus:ring-2 focus:ring-zinc-200 dark:border-zinc-800 dark:bg-zinc-950 dark:focus:border-zinc-600 dark:focus:ring-zinc-800"
+              />
+            </label>
+            <label className="block text-sm">
+              <span className="mb-1 block text-zinc-700 dark:text-zinc-300">
+                Tags
+              </span>
+              <input
+                value={tagsInput}
+                onChange={(event) => setTagsInput(event.target.value)}
+                placeholder="#calm #reset"
+                className="w-full rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm outline-none focus:border-zinc-400 focus:ring-2 focus:ring-zinc-200 dark:border-zinc-800 dark:bg-zinc-950 dark:focus:border-zinc-600 dark:focus:ring-zinc-800"
+              />
+            </label>
+            <label className="block text-sm">
+              <span className="mb-1 block text-zinc-700 dark:text-zinc-300">
+                Duration
+              </span>
+              <input
+                value={durationInput}
+                onChange={(event) => setDurationInput(event.target.value)}
+                placeholder="12 or 12m"
+                className="w-full rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm outline-none focus:border-zinc-400 focus:ring-2 focus:ring-zinc-200 dark:border-zinc-800 dark:bg-zinc-950 dark:focus:border-zinc-600 dark:focus:ring-zinc-800"
+              />
+            </label>
+
+            {formError && (
+              <p className="text-sm text-red-600 dark:text-red-400">{formError}</p>
+            )}
+
+            <div className="flex justify-end gap-2">
+              <button
+                type="button"
+                onClick={handleCancelEdit}
+                className="rounded-xl border border-zinc-200 px-4 py-2 text-sm hover:bg-zinc-100 dark:border-zinc-800 dark:hover:bg-zinc-800"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                className="rounded-xl bg-zinc-900 px-4 py-2 text-sm text-white hover:opacity-90 dark:bg-zinc-100 dark:text-zinc-900"
+              >
+                Save
+              </button>
+            </div>
+          </form>
+        )}
       </section>
     </div>
   );
