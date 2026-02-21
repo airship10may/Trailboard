@@ -63,35 +63,21 @@ npm run build
 3. PR のレビュー・マージ
 4. マージ後のブランチ cleanup（既定の運用に従う）
 
-## CI / GitHub Pages メモ
+## CI / CD：GitHub Pages メモ
 - CI は GitHub Actions（`.github/workflows/ci.yml`）で実行
 - トリガーは `pull_request` と `main` への `push`
 - CI ジョブでは `npm ci` → `npm run build` → `npm run lint` を実施
 - GitHub Pages へのデプロイは `.github/workflows/cd.yml` で実行（`main` push / 手動実行）
 - GitHub Pages の配信設定は Repository Settings > Pages で `Source: GitHub Actions` を使用
 
-## Codex 起動時の定型プロンプト（コピー用）
-
-```text
-Follow codex/TASKS.md strictly.
-Follow codex/CONTRIBUTING.md strictly.
-
-Work in a new branch.
-Keep changes minimal and within the Issue scope.
-
-Run npm run build before opening a PR.
-Open a PR using the provided template with clear verification steps.
-
-If any requirement is unclear, ask before making assumptions.
-```
-
 ## 運用フロー（Issue → PR → Merge）
 1. Issue 作成
  - GitHub で Issue を作成（テンプレに従う）
 2. Codex 実行（ローカル / WSL）
- - Codex を起動し、Issue を渡して実装を依頼
- - Codex は実装後、npm run build を通して完了
- - #### この時点で Codex 作業は終了（Git操作はしない）
+ - 下記はcodex/に明示。概要を記載する。
+    - Codex を起動し、Issue を渡して実装を依頼
+    - Codex は実装後、npm run build を通して完了
+    - #### この時点で Codex 作業は終了（Git操作はしない）
 3. 人間：コミット＆push（1コマンド）
 Codex の作業完了後、以下を実行する：
 ```bash
@@ -127,5 +113,9 @@ chmod +x scripts/publish_commit.sh
 ## Github Pages(CD)
  - CDを実装し、push、mergeされた反映は下記のリンクから参照可能。
 ```link
-https://airship10may.github.io/
+[Trailboard](https://airship10may.github.io/Trailboard/)
 ```
+
+## 参照先
+[TASKS](./codex/TASKS.md)
+[CONTRIBUTING](./codex/CONTRIBUTING.md)
