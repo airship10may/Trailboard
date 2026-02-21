@@ -6,6 +6,8 @@ export type Trail = {
   minutes: number;
 };
 
+export const CARD_STORAGE_KEY = "trailboard.cards.v1";
+
 export const trails: Trail[] = [
   {
     id: "a01",
@@ -30,6 +32,73 @@ export const trails: Trail[] = [
   },
 ];
 
+function isTrail(value: unknown): value is Trail {
+  if (!value || typeof value !== "object") return false;
+  const candidate = value as Partial<Trail>;
+
+  return (
+    typeof candidate.id === "string" &&
+    typeof candidate.title === "string" &&
+    typeof candidate.subtitle === "string" &&
+    Array.isArray(candidate.tags) &&
+    candidate.tags.every((tag) => typeof tag === "string") &&
+    typeof candidate.minutes === "number"
+  );
+}
+
+export function loadStoredTrails(): Trail[] | null {
+  const raw = localStorage.getItem(CARD_STORAGE_KEY);
+  if (!raw) return null;
+
+  try {
+    const parsed: unknown = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return null;
+    if (!parsed.every(isTrail)) return null;
+    return parsed;
+  } catch {
+    return null;
+  }
+}
+
+export function saveTrails(nextTrails: Trail[]) {
+  localStorage.setItem(CARD_STORAGE_KEY, JSON.stringify(nextTrails));
+}
+
+export function getPreferredTrails() {
+  return loadStoredTrails() ?? trails;
+}
+
+export function parseTags(raw: string): string[] {
+  const normalized = raw
+    .split(/[\s,]+/)
+    .map((tag) => tag.trim())
+    .filter(Boolean)
+    .map((tag) => tag.replace(/^#+/, "").toLowerCase())
+    .filter(Boolean);
+
+  return Array.from(new Set(normalized));
+}
+
+export function parseDurationToMinutes(raw: string): number | null {
+  const trimmed = raw.trim().toLowerCase();
+  if (!trimmed) return null;
+
+  if (/^\d+$/.test(trimmed)) {
+    return Number.parseInt(trimmed, 10);
+  }
+
+  const withUnit = trimmed.match(/^(\d+)\s*m$/);
+  if (!withUnit) return null;
+  return Number.parseInt(withUnit[1], 10);
+}
+
+export function createTrailId() {
+  if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+    return crypto.randomUUID();
+  }
+  return `trail-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+}
+
 export function getTrail(id: string) {
-  return trails.find((t) => t.id === id);
+  return getPreferredTrails().find((t) => t.id === id);
 }
