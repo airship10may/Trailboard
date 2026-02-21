@@ -112,10 +112,10 @@ chmod +x scripts/publish_commit.sh
 
 ## Github Pages(CD)
  - CDを実装し、push、mergeされた反映は下記のリンクから参照可能。
-```link
-[Trailboard](https://airship10may.github.io/Trailboard/)
-```
+
+ - [Trailboard](https://airship10may.github.io/Trailboard/)
+
 
 ## 参照先
-[TASKS](./codex/TASKS.md)
-[CONTRIBUTING](./codex/CONTRIBUTING.md)
+ - [TASKS](./codex/TASKS.md)
+ - [CONTRIBUTING](./codex/CONTRIBUTING.md)
