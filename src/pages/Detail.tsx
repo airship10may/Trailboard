@@ -1,17 +1,13 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { deleteTrail, getTrail } from "../data/trails";
 
 export default function Detail() {
   const navigate = useNavigate();
   const { id } = useParams();
-  const [trail, setTrail] = useState(() => (id ? getTrail(id) : undefined));
-  const [isDeleting, setIsDeleting] = useState(false);
-
-  useEffect(() => {
-    setTrail(id ? getTrail(id) : undefined);
-    setIsDeleting(false);
-  }, [id]);
+  const trail = id ? getTrail(id) : undefined;
+  const [deletingTrailId, setDeletingTrailId] = useState<string | null>(null);
+  const isDeleting = Boolean(id && deletingTrailId === id);
 
   function handleDelete() {
     if (!id || isDeleting) return;
@@ -19,7 +15,7 @@ export default function Detail() {
     const confirmed = window.confirm("Delete this card?");
     if (!confirmed) return;
 
-    setIsDeleting(true);
+    setDeletingTrailId(id);
     deleteTrail(id);
     navigate("/", { replace: true });
   }
