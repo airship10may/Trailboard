@@ -1,22 +1,30 @@
+import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { deleteTrail, getTrail } from "../data/trails";
 
 export default function Detail() {
   const navigate = useNavigate();
   const { id } = useParams();
-  const t = id ? getTrail(id) : undefined;
+  const [trail, setTrail] = useState(() => (id ? getTrail(id) : undefined));
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  useEffect(() => {
+    setTrail(id ? getTrail(id) : undefined);
+    setIsDeleting(false);
+  }, [id]);
 
   function handleDelete() {
-    if (!id) return;
+    if (!id || isDeleting) return;
 
     const confirmed = window.confirm("Delete this card?");
     if (!confirmed) return;
 
+    setIsDeleting(true);
     deleteTrail(id);
     navigate("/", { replace: true });
   }
 
-  if (!t) {
+  if (!trail) {
     return (
       <div className="rounded-3xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900">
         <div className="text-sm text-zinc-500">Not found</div>
@@ -30,12 +38,12 @@ export default function Detail() {
   return (
     <div className="space-y-6">
       <section className="rounded-3xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
-        <div className="text-xs text-zinc-500 dark:text-zinc-400">Trail ID: {t.id}</div>
-        <h1 className="mt-2 text-2xl font-semibold">{t.title}</h1>
-        <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">{t.subtitle}</p>
+        <div className="text-xs text-zinc-500 dark:text-zinc-400">Trail ID: {trail.id}</div>
+        <h1 className="mt-2 text-2xl font-semibold">{trail.title}</h1>
+        <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">{trail.subtitle}</p>
 
         <div className="mt-5 flex flex-wrap gap-2">
-          {t.tags.map((tag) => (
+          {trail.tags.map((tag) => (
             <span
               key={tag}
               className="rounded-full bg-zinc-900 px-3 py-1 text-xs text-white dark:bg-zinc-100 dark:text-zinc-900"
@@ -68,9 +76,10 @@ export default function Detail() {
           <button
             type="button"
             onClick={handleDelete}
+            disabled={isDeleting}
             className="rounded-xl border border-zinc-200 px-4 py-2 text-sm text-zinc-600 hover:bg-zinc-100 dark:border-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-800"
           >
-            Delete
+            {isDeleting ? "Deleting..." : "Delete"}
           </button>
         </div>
       </section>
