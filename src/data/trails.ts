@@ -102,3 +102,14 @@ export function createTrailId() {
 export function getTrail(id: string) {
   return getPreferredTrails().find((t) => t.id === id);
 }
+
+export function deleteTrail(id: string): boolean {
+  const current = getPreferredTrails();
+  const next = current.filter((trail) => trail.id !== id);
+  if (next.length === current.length) {
+    return false;
+  }
+
+  saveTrails(next);
+  return true;
+}
