@@ -37,7 +37,7 @@ Codex is responsible for implementation and ensuring the project builds successf
 - Confirm the Issue number explicitly, then create a branch as `codex/<issue-number>-<short-slug>`.
 - Make changes within the Issue scope.
 - Run `npm run build` and confirm it succeeds.
-- Do NOT perform any Git operations (no `git add/commit/push`) and do NOT create/update Pull Requests.
+- You may create/switch branches, but must NOT run git add, git commit, git push, or create/update PRs.
 - After the build succeeds, output the work summary using the PR template sections(.github
 /PULL_REQUEST_TEMPLATE.md):
   - Summary
@@ -49,4 +49,5 @@ Codex is responsible for implementation and ensuring the project builds successf
   - Open Questions (if any)
 
 A human will run `./scripts/publish_commit.sh` to commit and push, then open the PR in GitHub UI.
+
 
