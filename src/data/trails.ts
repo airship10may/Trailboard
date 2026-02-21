@@ -113,3 +113,20 @@ export function deleteTrail(id: string): boolean {
   saveTrails(next);
   return true;
 }
+
+export function updateTrail(
+  id: string,
+  payload: Omit<Trail, "id">
+): Trail | null {
+  const current = getPreferredTrails();
+  const targetIndex = current.findIndex((trail) => trail.id === id);
+  if (targetIndex === -1) return null;
+
+  const updatedTrail: Trail = {
+    id,
+    ...payload,
+  };
+  const next = current.map((trail) => (trail.id === id ? updatedTrail : trail));
+  saveTrails(next);
+  return updatedTrail;
+}
