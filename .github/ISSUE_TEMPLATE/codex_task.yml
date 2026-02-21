@@ -3,6 +3,12 @@ description: Codex向けタスク（1 issue = 1 PR）
 title: "[Trailboard] "
 labels: ["codex"]
 body:
+  - type: markdown
+    attributes:
+      value: |
+        > このリポジトリは Codex の実証実験・学習用です。
+        > 安定性よりも検証速度を優先する場合があります。必要に応じてリスクや破壊的変更の可能性を明記してください。
+
   - type: textarea
     id: goal
     attributes:

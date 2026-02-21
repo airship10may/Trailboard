@@ -2,6 +2,7 @@
 
 これは **Codex を“自律”させてアプリを完成まで走らせる**ための実験場です。  
 チーム開発（VSCode + Copilot）とは切り離し、**AI単体の実行能力／ドキュメント整備／運用の観測**を検証します。
+本リポジトリは **実証実験・学習用** であり、本番用途を前提としません。
 
 ## 目的（Observability）
 このリポジトリの価値は「綺麗なコード」より **観測可能性**にあります。
@@ -19,7 +20,13 @@
 - 依存追加・構造変更は必ず明記し、理由を書く
 - PRに「確認手順（How to verify）」を必ず残す
 
-Codex向けの正本ルールは `TASKS.md` を参照。
+Codex向けの正本ルールは `codex/TASKS.md` を参照。
+
+## 公開運用ポリシー（Public Repo）
+- このリポジトリは CI/CD 検証のため公開運用（Public）を許容する。
+- ソースコード、Issue/PR、Actionsログ、GitHub Pages の公開を前提とする。
+- 公開禁止情報（秘密鍵、トークン、個人情報、社内限定情報）はコミットしない。
+- 実験的な変更を含むため、安定性より観測可能性と検証速度を優先する。
 
 ## 開発
 ### セットアップ
@@ -60,13 +67,14 @@ npm run build
 - CI は GitHub Actions（`.github/workflows/ci.yml`）で実行
 - トリガーは `pull_request` と `main` への `push`
 - CI ジョブでは `npm ci` → `npm run build` → `npm run lint` を実施
-- 現在、このリポジトリには GitHub Pages へのデプロイ用 workflow は未定義
+- GitHub Pages へのデプロイは `.github/workflows/cd.yml` で実行（`main` push / 手動実行）
+- GitHub Pages の配信設定は Repository Settings > Pages で `Source: GitHub Actions` を使用
 
 ## Codex 起動時の定型プロンプト（コピー用）
 
 ```text
-Follow TASKS.md strictly.
-Follow CONTRIBUTING.md strictly.
+Follow codex/TASKS.md strictly.
+Follow codex/CONTRIBUTING.md strictly.
 
 Work in a new branch.
 Keep changes minimal and within the Issue scope.
