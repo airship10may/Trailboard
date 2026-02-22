@@ -62,13 +62,6 @@ export default function Settings() {
   }, [theme]);
 
   useEffect(() => {
-    const nextTheme = resolveThemeForEntitlement(theme, entitlement);
-    if (nextTheme !== theme) {
-      setTheme(nextTheme);
-    }
-  }, [entitlement, theme]);
-
-  useEffect(() => {
     saveEntitlement(entitlement);
   }, [entitlement]);
 
@@ -101,7 +94,11 @@ export default function Settings() {
   }
 
   function resetToFree() {
-    setEntitlement(createFreeEntitlement());
+    const freeEntitlement = createFreeEntitlement();
+    setEntitlement(freeEntitlement);
+    setTheme((currentTheme) =>
+      resolveThemeForEntitlement(currentTheme, freeEntitlement)
+    );
   }
 
   function openActivateModal() {
