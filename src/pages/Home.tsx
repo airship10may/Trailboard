@@ -113,7 +113,7 @@ export default function Home() {
 
   return (
     <div className="space-y-6">
-      <section className="rounded-3xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+      <section className="rounded-3xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-700 dark:bg-zinc-800">
         <div className="flex items-start justify-between gap-3">
           <div>
             <h1 className="text-xl font-semibold">今日のボード</h1>
@@ -131,7 +131,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="rounded-3xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+      <section className="rounded-3xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-zinc-700 dark:bg-zinc-800">
         <label
           htmlFor="trail-search"
           className="mb-2 block text-sm font-medium text-zinc-700 dark:text-zinc-300"
@@ -144,7 +144,7 @@ export default function Home() {
           value={query}
           onChange={(event) => setQuery(event.target.value)}
           placeholder="Search by title, description, or tags"
-          className="w-full rounded-2xl border border-zinc-200 bg-white px-4 py-2 text-sm text-zinc-900 shadow-sm outline-none transition focus:border-zinc-400 focus:ring-2 focus:ring-zinc-200 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-100 dark:focus:border-zinc-600 dark:focus:ring-zinc-800"
+          className="w-full rounded-2xl border border-zinc-200 bg-white px-4 py-2 text-sm text-zinc-900 shadow-sm outline-none transition focus:border-zinc-400 focus:ring-2 focus:ring-zinc-200 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100 dark:focus:border-zinc-600 dark:focus:ring-zinc-800"
         />
 
         <div className="mt-4 space-y-2">
@@ -178,7 +178,7 @@ export default function Home() {
                     className={`rounded-full border px-3 py-1 text-xs transition-colors ${
                       isSelected
                         ? "border-zinc-900 bg-zinc-900 text-white dark:border-zinc-100 dark:bg-zinc-100 dark:text-zinc-900"
-                        : "border-zinc-200 text-zinc-700 hover:bg-zinc-100 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
+                        : "border-zinc-200 text-zinc-700 hover:bg-zinc-100 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-700"
                     }`}
                   >
                     #{tag} ({count})
@@ -192,7 +192,7 @@ export default function Home() {
 
       <section className="grid grid-cols-1 gap-4 md:grid-cols-2">
         {filteredTrails.length === 0 ? (
-          <div className="rounded-3xl border border-dashed border-zinc-200 bg-white p-6 text-sm text-zinc-500 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400 md:col-span-2">
+          <div className="rounded-3xl border border-dashed border-zinc-200 bg-white p-6 text-sm text-zinc-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-400 md:col-span-2">
             No results
           </div>
         ) : (
@@ -200,7 +200,7 @@ export default function Home() {
             <button
               key={t.id}
               onClick={() => nav(`/trail/${t.id}`)}
-              className="group rounded-3xl border border-zinc-200 bg-white p-5 text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900"
+              className="group rounded-3xl border border-zinc-200 bg-white p-5 text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-zinc-700 dark:bg-zinc-800"
             >
               <div className="flex items-start justify-between gap-4">
                 <div>
@@ -209,7 +209,7 @@ export default function Home() {
                     {t.subtitle}
                   </div>
                 </div>
-                <div className="rounded-2xl bg-zinc-100 px-3 py-2 text-xs font-medium text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">
+                <div className="rounded-2xl bg-zinc-100 px-3 py-2 text-xs font-medium text-zinc-700 dark:bg-zinc-700 dark:text-zinc-200">
                   {t.minutes}m
                 </div>
               </div>
@@ -242,7 +242,7 @@ export default function Home() {
         <div className="fixed inset-0 z-20 flex items-end justify-center bg-zinc-950/40 p-4 sm:items-center">
           <form
             onSubmit={handleSubmit}
-            className="w-full max-w-md rounded-3xl border border-zinc-200 bg-white p-5 shadow-lg dark:border-zinc-800 dark:bg-zinc-900"
+            className="w-full max-w-md rounded-3xl border border-zinc-200 bg-white p-5 shadow-lg dark:border-zinc-700 dark:bg-zinc-800"
           >
             <h2 className="text-lg font-semibold">Create Card</h2>
             <div className="mt-4 space-y-3">
@@ -253,7 +253,7 @@ export default function Home() {
                 <input
                   value={titleInput}
                   onChange={(event) => setTitleInput(event.target.value)}
-                  className="w-full rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm outline-none focus:border-zinc-400 focus:ring-2 focus:ring-zinc-200 dark:border-zinc-800 dark:bg-zinc-950 dark:focus:border-zinc-600 dark:focus:ring-zinc-800"
+                  className="w-full rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm outline-none focus:border-zinc-400 focus:ring-2 focus:ring-zinc-200 dark:border-zinc-700 dark:bg-zinc-900 dark:focus:border-zinc-600 dark:focus:ring-zinc-800"
                 />
               </label>
               <label className="block text-sm">
@@ -263,7 +263,7 @@ export default function Home() {
                 <input
                   value={descriptionInput}
                   onChange={(event) => setDescriptionInput(event.target.value)}
-                  className="w-full rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm outline-none focus:border-zinc-400 focus:ring-2 focus:ring-zinc-200 dark:border-zinc-800 dark:bg-zinc-950 dark:focus:border-zinc-600 dark:focus:ring-zinc-800"
+                  className="w-full rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm outline-none focus:border-zinc-400 focus:ring-2 focus:ring-zinc-200 dark:border-zinc-700 dark:bg-zinc-900 dark:focus:border-zinc-600 dark:focus:ring-zinc-800"
                 />
               </label>
               <label className="block text-sm">
@@ -274,7 +274,7 @@ export default function Home() {
                   value={tagsInput}
                   onChange={(event) => setTagsInput(event.target.value)}
                   placeholder="#calm #reset"
-                  className="w-full rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm outline-none focus:border-zinc-400 focus:ring-2 focus:ring-zinc-200 dark:border-zinc-800 dark:bg-zinc-950 dark:focus:border-zinc-600 dark:focus:ring-zinc-800"
+                  className="w-full rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm outline-none focus:border-zinc-400 focus:ring-2 focus:ring-zinc-200 dark:border-zinc-700 dark:bg-zinc-900 dark:focus:border-zinc-600 dark:focus:ring-zinc-800"
                 />
               </label>
               <label className="block text-sm">
@@ -285,7 +285,7 @@ export default function Home() {
                   value={durationInput}
                   onChange={(event) => setDurationInput(event.target.value)}
                   placeholder="12 or 12m"
-                  className="w-full rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm outline-none focus:border-zinc-400 focus:ring-2 focus:ring-zinc-200 dark:border-zinc-800 dark:bg-zinc-950 dark:focus:border-zinc-600 dark:focus:ring-zinc-800"
+                  className="w-full rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm outline-none focus:border-zinc-400 focus:ring-2 focus:ring-zinc-200 dark:border-zinc-700 dark:bg-zinc-900 dark:focus:border-zinc-600 dark:focus:ring-zinc-800"
                 />
               </label>
             </div>
@@ -300,7 +300,7 @@ export default function Home() {
               <button
                 type="button"
                 onClick={closeModal}
-                className="rounded-xl border border-zinc-200 px-4 py-2 text-sm hover:bg-zinc-100 dark:border-zinc-800 dark:hover:bg-zinc-800"
+                className="rounded-xl border border-zinc-200 px-4 py-2 text-sm hover:bg-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-700"
               >
                 Cancel
               </button>

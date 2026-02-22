@@ -20,7 +20,7 @@ export default function Settings() {
 
   return (
     <div className="space-y-6">
-      <section className="rounded-3xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+      <section className="rounded-3xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-700 dark:bg-zinc-800">
         <h1 className="text-xl font-semibold">Settings</h1>
         <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
           テーマを選択できます(Light/Dark)
@@ -32,7 +32,7 @@ export default function Settings() {
             className={`rounded-xl px-4 py-2 text-sm ${
               theme === "light"
                 ? "bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900"
-                : "border border-zinc-200 hover:bg-zinc-100 dark:border-zinc-800 dark:hover:bg-zinc-800"
+                : "border border-zinc-200 hover:bg-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-700"
             }`}
           >
             Light
@@ -42,7 +42,7 @@ export default function Settings() {
             className={`rounded-xl px-4 py-2 text-sm ${
               theme === "dark"
                 ? "bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900"
-                : "border border-zinc-200 hover:bg-zinc-100 dark:border-zinc-800 dark:hover:bg-zinc-800"
+                : "border border-zinc-200 hover:bg-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-700"
             }`}
           >
             Dark

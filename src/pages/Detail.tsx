@@ -92,7 +92,7 @@ export default function Detail() {
 
   if (!trail) {
     return (
-      <div className="rounded-3xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900">
+      <div className="rounded-3xl border border-zinc-200 bg-white p-6 dark:border-zinc-700 dark:bg-zinc-800">
         <div className="text-sm text-zinc-500">Not found</div>
         <Link className="mt-3 inline-block text-sm underline" to="/">
           Back to Home
@@ -103,7 +103,7 @@ export default function Detail() {
 
   return (
     <div className="space-y-6">
-      <section className="rounded-3xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+      <section className="rounded-3xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-700 dark:bg-zinc-800">
         <div className="text-xs text-zinc-500 dark:text-zinc-400">Trail ID: {trail.id}</div>
         <h1 className="mt-2 text-2xl font-semibold">{trail.title}</h1>
         <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">{trail.subtitle}</p>
@@ -119,7 +119,7 @@ export default function Detail() {
           ))}
         </div>
 
-        <div className="mt-6 rounded-2xl border border-zinc-200 p-4 text-sm text-zinc-700 dark:border-zinc-800 dark:text-zinc-200">
+        <div className="mt-6 rounded-2xl border border-zinc-200 p-4 text-sm text-zinc-700 dark:border-zinc-700 dark:text-zinc-200">
           <div className="font-medium">Mini interaction</div>
           <div className="mt-1 text-zinc-500 dark:text-zinc-400">
             ここは将来「フロントだけの状態管理」や「アニメーション実験」を足していく余地にします。
@@ -129,14 +129,14 @@ export default function Detail() {
         <div className="mt-6 flex flex-wrap gap-3">
           <Link
             to="/"
-            className="rounded-xl border border-zinc-200 px-4 py-2 text-sm transition-colors transition-shadow hover:border-zinc-300 hover:bg-zinc-100 hover:shadow-sm dark:border-zinc-800 dark:hover:border-zinc-700 dark:hover:bg-zinc-800"
+            className="rounded-xl border border-zinc-200 px-4 py-2 text-sm transition-colors transition-shadow hover:border-zinc-300 hover:bg-zinc-100 hover:shadow-sm dark:border-zinc-700 dark:hover:border-zinc-700 dark:hover:bg-zinc-700"
           >
             Back
           </Link>
           <button
             type="button"
             onClick={handleStartEdit}
-            className="rounded-xl border border-zinc-200 px-4 py-2 text-sm text-zinc-600 transition-colors transition-shadow hover:border-emerald-200 hover:bg-emerald-50 hover:text-emerald-700 hover:shadow-sm dark:border-zinc-800 dark:text-zinc-300 dark:hover:border-emerald-900/70 dark:hover:bg-emerald-950/40 dark:hover:text-emerald-300"
+            className="rounded-xl border border-zinc-200 px-4 py-2 text-sm text-zinc-600 transition-colors transition-shadow hover:border-emerald-200 hover:bg-emerald-50 hover:text-emerald-700 hover:shadow-sm dark:border-zinc-700 dark:text-zinc-300 dark:hover:border-emerald-900/70 dark:hover:bg-emerald-950/40 dark:hover:text-emerald-300"
           >
             Edit
           </button>
@@ -144,14 +144,14 @@ export default function Detail() {
             type="button"
             onClick={handleDelete}
             disabled={isDeleting}
-            className="rounded-xl border border-zinc-200 px-4 py-2 text-sm text-zinc-600 transition-colors transition-shadow hover:border-red-200 hover:bg-red-50 hover:text-red-700 hover:shadow-sm dark:border-zinc-800 dark:text-zinc-300 dark:hover:border-red-900/70 dark:hover:bg-red-950/40 dark:hover:text-red-300"
+            className="rounded-xl border border-zinc-200 px-4 py-2 text-sm text-zinc-600 transition-colors transition-shadow hover:border-red-200 hover:bg-red-50 hover:text-red-700 hover:shadow-sm dark:border-zinc-700 dark:text-zinc-300 dark:hover:border-red-900/70 dark:hover:bg-red-950/40 dark:hover:text-red-300"
           >
             {isDeleting ? "Deleting..." : "Delete"}
           </button>
         </div>
 
         {isEditing && (
-          <form onSubmit={handleSaveEdit} className="mt-6 space-y-3 rounded-2xl border border-zinc-200 p-4 dark:border-zinc-800">
+          <form onSubmit={handleSaveEdit} className="mt-6 space-y-3 rounded-2xl border border-zinc-200 p-4 dark:border-zinc-700">
             <h2 className="text-sm font-semibold">Edit card</h2>
             <label className="block text-sm">
               <span className="mb-1 block text-zinc-700 dark:text-zinc-300">
@@ -160,7 +160,7 @@ export default function Detail() {
               <input
                 value={titleInput}
                 onChange={(event) => setTitleInput(event.target.value)}
-                className="w-full rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm outline-none focus:border-zinc-400 focus:ring-2 focus:ring-zinc-200 dark:border-zinc-800 dark:bg-zinc-950 dark:focus:border-zinc-600 dark:focus:ring-zinc-800"
+                className="w-full rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm outline-none focus:border-zinc-400 focus:ring-2 focus:ring-zinc-200 dark:border-zinc-700 dark:bg-zinc-900 dark:focus:border-zinc-600 dark:focus:ring-zinc-800"
               />
             </label>
             <label className="block text-sm">
@@ -170,7 +170,7 @@ export default function Detail() {
               <input
                 value={descriptionInput}
                 onChange={(event) => setDescriptionInput(event.target.value)}
-                className="w-full rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm outline-none focus:border-zinc-400 focus:ring-2 focus:ring-zinc-200 dark:border-zinc-800 dark:bg-zinc-950 dark:focus:border-zinc-600 dark:focus:ring-zinc-800"
+                className="w-full rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm outline-none focus:border-zinc-400 focus:ring-2 focus:ring-zinc-200 dark:border-zinc-700 dark:bg-zinc-900 dark:focus:border-zinc-600 dark:focus:ring-zinc-800"
               />
             </label>
             <label className="block text-sm">
@@ -181,7 +181,7 @@ export default function Detail() {
                 value={tagsInput}
                 onChange={(event) => setTagsInput(event.target.value)}
                 placeholder="#calm #reset"
-                className="w-full rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm outline-none focus:border-zinc-400 focus:ring-2 focus:ring-zinc-200 dark:border-zinc-800 dark:bg-zinc-950 dark:focus:border-zinc-600 dark:focus:ring-zinc-800"
+                className="w-full rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm outline-none focus:border-zinc-400 focus:ring-2 focus:ring-zinc-200 dark:border-zinc-700 dark:bg-zinc-900 dark:focus:border-zinc-600 dark:focus:ring-zinc-800"
               />
             </label>
             <label className="block text-sm">
@@ -192,7 +192,7 @@ export default function Detail() {
                 value={durationInput}
                 onChange={(event) => setDurationInput(event.target.value)}
                 placeholder="12 or 12m"
-                className="w-full rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm outline-none focus:border-zinc-400 focus:ring-2 focus:ring-zinc-200 dark:border-zinc-800 dark:bg-zinc-950 dark:focus:border-zinc-600 dark:focus:ring-zinc-800"
+                className="w-full rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm outline-none focus:border-zinc-400 focus:ring-2 focus:ring-zinc-200 dark:border-zinc-700 dark:bg-zinc-900 dark:focus:border-zinc-600 dark:focus:ring-zinc-800"
               />
             </label>
 
@@ -204,7 +204,7 @@ export default function Detail() {
               <button
                 type="button"
                 onClick={handleCancelEdit}
-                className="rounded-xl border border-zinc-200 px-4 py-2 text-sm hover:bg-zinc-100 dark:border-zinc-800 dark:hover:bg-zinc-800"
+                className="rounded-xl border border-zinc-200 px-4 py-2 text-sm hover:bg-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-700"
               >
                 Cancel
               </button>
