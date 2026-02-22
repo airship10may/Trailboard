@@ -136,7 +136,7 @@ export default function Detail() {
           <button
             type="button"
             onClick={handleStartEdit}
-            className="rounded-xl border border-zinc-200 px-4 py-2 text-sm text-zinc-600 transition-colors transition-shadow hover:border-zinc-300 hover:bg-zinc-100 hover:shadow-sm dark:border-zinc-800 dark:text-zinc-300 dark:hover:border-zinc-700 dark:hover:bg-zinc-800"
+            className="rounded-xl border border-zinc-200 px-4 py-2 text-sm text-zinc-600 transition-colors transition-shadow hover:border-emerald-200 hover:bg-emerald-50 hover:text-emerald-700 hover:shadow-sm dark:border-zinc-800 dark:text-zinc-300 dark:hover:border-emerald-900/70 dark:hover:bg-emerald-950/40 dark:hover:text-emerald-300"
           >
             Edit
           </button>
