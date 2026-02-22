@@ -31,7 +31,13 @@ const sectionClass =
   "rounded-3xl border border-[var(--tb-border)] bg-[var(--tb-surface-bg)] p-6 shadow-sm";
 const mutedTextClass = "text-[var(--tb-muted)]";
 const buttonClass =
-  "rounded-xl border border-[var(--tb-border)] bg-[var(--tb-surface-bg)] px-4 py-2 text-sm text-[var(--tb-text)] transition hover:opacity-90";
+  "rounded-xl border border-[var(--tb-border)] bg-[var(--tb-surface-bg)] px-4 py-2 text-sm text-[var(--tb-text)] transition hover:bg-[var(--tb-input-bg)] hover:ring-1 hover:ring-[var(--tb-border)]";
+const primaryButtonClass =
+  "rounded-xl border border-zinc-900 bg-zinc-900 px-4 py-2 text-sm text-white transition hover:bg-zinc-800 dark:border-zinc-100 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200";
+const dangerButtonClass =
+  "rounded-xl border border-[var(--tb-border)] bg-[var(--tb-surface-bg)] px-4 py-2 text-sm text-[var(--tb-text)] transition hover:border-red-300 hover:bg-red-50 hover:text-red-700 dark:hover:border-red-800 dark:hover:bg-red-950/30 dark:hover:text-red-300";
+const premiumActionHoverClass =
+  "border-[var(--tb-border)] bg-[var(--tb-surface-bg)] text-[var(--tb-text)] hover:border-amber-300 hover:bg-amber-50 hover:text-amber-800 dark:hover:border-amber-800 dark:hover:bg-amber-950/30 dark:hover:text-amber-300";
 const textAreaClass =
   "w-full rounded-2xl border border-[var(--tb-border)] bg-[var(--tb-input-bg)] px-3 py-2 text-sm text-[var(--tb-text)] outline-none placeholder:text-[var(--tb-placeholder)] focus:border-[var(--tb-border)] focus:ring-2 focus:ring-[var(--tb-border)]/50";
 
@@ -228,7 +234,13 @@ export default function Settings() {
         <div className="mt-4 grid gap-2 text-sm">
           <div className="flex items-center gap-2">
             <span className={mutedTextClass}>Status:</span>
-            <span className="font-medium">
+            <span
+              className={
+                premiumActive
+                  ? "font-medium text-emerald-600 dark:text-emerald-400"
+                  : `font-medium ${mutedTextClass}`
+              }
+            >
               {premiumActive ? "Active" : "Inactive"}
             </span>
           </div>
@@ -254,7 +266,7 @@ export default function Settings() {
             className={`rounded-xl border px-4 py-2 text-sm transition ${
               isActivateDisabled
                 ? "cursor-not-allowed border-[var(--tb-border)] bg-[var(--tb-input-bg)] text-[var(--tb-muted)] opacity-70"
-                : "border-[var(--tb-border)] bg-[var(--tb-surface-bg)] text-[var(--tb-text)] hover:ring-2 hover:ring-[var(--tb-border)]"
+                : premiumActionHoverClass
             }`}
           >
             {isActivateDisabled
@@ -264,7 +276,7 @@ export default function Settings() {
           <button
             type="button"
             onClick={openResetModal}
-            className={buttonClass}
+            className={dangerButtonClass}
           >
             Reset to Free
           </button>
@@ -435,7 +447,7 @@ export default function Settings() {
                   <button
                     type="button"
                     onClick={handleConfirmReset}
-                    className={buttonClass}
+                    className={primaryButtonClass}
                   >
                     Confirm
                   </button>
