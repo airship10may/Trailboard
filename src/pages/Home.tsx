@@ -130,11 +130,11 @@ export default function Home() {
 
   return (
     <div className="space-y-6">
-      <section className="rounded-3xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-700 dark:bg-zinc-800">
+      <section className="rounded-3xl border border-[var(--tb-border)] bg-[var(--tb-surface-bg)] p-6 shadow-sm">
         <div className="flex items-start justify-between gap-3">
           <div>
             <h1 className="text-xl font-semibold">今日のボード</h1>
-            <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
+            <p className="mt-1 text-sm text-[var(--tb-muted)]">
               カードをクリックすると詳細へ遷移します。
             </p>
           </div>
@@ -142,10 +142,10 @@ export default function Home() {
             type="button"
             onClick={handleOpenModal}
             disabled={isCreateLimitReached}
-            className={`shrink-0 rounded-xl px-3 py-2 text-sm ${
+            className={`shrink-0 rounded-xl px-3 py-2 text-sm border border-transparent ${
               isCreateLimitReached
-                ? "cursor-not-allowed bg-zinc-300 text-zinc-600 dark:bg-zinc-600 dark:text-zinc-300"
-                : "bg-zinc-900 text-white hover:opacity-90 dark:bg-zinc-100 dark:text-zinc-900"
+                ? "cursor-not-allowed bg-[var(--tb-border)] text-[var(--tb-muted)]"
+                : "bg-[var(--tb-text)] text-[var(--tb-surface-bg)] hover:hover:brightness-110"
             }`}
           >
             + New
