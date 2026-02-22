@@ -112,8 +112,9 @@ chmod +x scripts/publish_commit.sh
 
 ## Github Pages(CD)
  - CDを実装し、push、mergeされた反映は下記のリンクから参照可能。
+ - ルーティングは HashRouter 方式のため、URL は `.../Trailboard/#/` 形式になります。
 
- - [Trailboard](https://airship10may.github.io/Trailboard/)
+ - [Trailboard](https://airship10may.github.io/Trailboard/#/)
 
 
 ## 参照先
