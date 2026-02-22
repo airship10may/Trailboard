@@ -10,6 +10,7 @@ import {
 } from "../data/trails";
 import type { Trail } from "../data/trails";
 import { isPremiumActive, loadEntitlement } from "../data/entitlement";
+import Button from "../components/ui/Button";
 
 const FREE_CARD_LIMIT = 10;
 
@@ -138,18 +139,18 @@ export default function Home() {
               カードをクリックすると詳細へ遷移します。
             </p>
           </div>
-          <button
-            type="button"
+          <Button
+            variant="primary"
             onClick={handleOpenModal}
             disabled={isCreateLimitReached}
-            className={`shrink-0 rounded-xl px-3 py-2 text-sm border border-transparent ${
+            className={`shrink-0 px-3 py-2 ${
               isCreateLimitReached
-                ? "cursor-not-allowed bg-[var(--tb-border)] text-[var(--tb-muted)]"
-                : "bg-[var(--tb-text)] text-[var(--tb-surface-bg)] hover:hover:brightness-110"
+                ? "border-transparent bg-[var(--tb-border)] text-[var(--tb-muted)] disabled:opacity-100"
+                : "border-[var(--tb-text)] hover:opacity-100 hover:brightness-110"
             }`}
           >
             + New
-          </button>
+          </Button>
         </div>
         {isCreateLimitReached && (
           <p className="mt-3 text-sm text-amber-700 dark:text-amber-300">
@@ -325,19 +326,12 @@ export default function Home() {
             )}
 
             <div className="mt-5 flex justify-end gap-2">
-              <button
-                type="button"
-                onClick={closeModal}
-                className="rounded-xl border border-zinc-200 px-4 py-2 text-sm hover:bg-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-700"
-              >
+              <Button variant="secondary" onClick={closeModal}>
                 Cancel
-              </button>
-              <button
-                type="submit"
-                className="rounded-xl bg-zinc-900 px-4 py-2 text-sm text-white hover:opacity-90 dark:bg-zinc-100 dark:text-zinc-900"
-              >
+              </Button>
+              <Button type="submit" variant="primary">
                 Save
-              </button>
+              </Button>
             </div>
           </form>
         </div>

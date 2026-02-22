@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   deleteTrail,
   getTrail,
@@ -8,7 +8,7 @@ import {
   parseTags,
   updateTrail,
 } from "../data/trails";
-import { getButtonClass } from "../components/buttonVariants";
+import Button from "../components/ui/Button";
 
 export default function Detail() {
   const navigate = useNavigate();
@@ -95,9 +95,9 @@ export default function Detail() {
     return (
       <div className="rounded-3xl border border-zinc-200 bg-white p-6 dark:border-zinc-700 dark:bg-zinc-800">
         <div className="text-sm text-zinc-500">Not found</div>
-        <Link className="mt-3 inline-block text-sm underline" to="/">
+        <Button className="mt-3 inline-block text-sm underline" onClick={() => navigate("/")}>
           Back to Home
-        </Link>
+        </Button>
       </div>
     );
   }
@@ -128,27 +128,15 @@ export default function Detail() {
         </div>
 
         <div className="mt-6 flex flex-wrap gap-3">
-          <Link
-            to="/"
-            className={getButtonClass("secondary")}
-          >
+          <Button variant="secondary" onClick={() => navigate("/")}>
             Back
-          </Link>
-          <button
-            type="button"
-            onClick={handleStartEdit}
-            className={getButtonClass("success")}
-          >
+          </Button>
+          <Button variant="success" onClick={handleStartEdit}>
             Edit
-          </button>
-          <button
-            type="button"
-            onClick={handleDelete}
-            disabled={isDeleting}
-            className={getButtonClass("danger")}
-          >
+          </Button>
+          <Button variant="danger" onClick={handleDelete} disabled={isDeleting}>
             {isDeleting ? "Deleting..." : "Delete"}
-          </button>
+          </Button>
         </div>
 
         {isEditing && (
@@ -202,19 +190,12 @@ export default function Detail() {
             )}
 
             <div className="flex justify-end gap-2">
-              <button
-                type="button"
-                onClick={handleCancelEdit}
-                className={getButtonClass("secondary")}
-              >
+              <Button variant="secondary" onClick={handleCancelEdit}>
                 Cancel
-              </button>
-              <button
-                type="submit"
-                className={getButtonClass("primary")}
-              >
+              </Button>
+              <Button type="submit" variant="primary">
                 Save
-              </button>
+              </Button>
             </div>
           </form>
         )}

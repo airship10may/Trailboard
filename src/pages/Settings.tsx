@@ -23,7 +23,7 @@ import {
   THEME_OPTIONS,
   type AppTheme,
 } from "../data/theme";
-import { getButtonClass } from "../components/buttonVariants";
+import Button from "../components/ui/Button";
 
 type PremiumActionType = "activate" | "reset";
 
@@ -252,25 +252,18 @@ export default function Settings() {
         </div>
 
         <div className="mt-5 flex flex-wrap gap-3">
-          <button
-            type="button"
+          <Button
+            variant={isActivateDisabled ? "premiumDisabled" : "premium"}
             disabled={isActivateDisabled}
             onClick={openActivateModal}
-            className={getButtonClass(
-              isActivateDisabled ? "premiumDisabled" : "premium"
-            )}
           >
             {isActivateDisabled
               ? "Premium Active (+30 days locked)"
               : "Activate Premium (+30 days)"}
-          </button>
-          <button
-            type="button"
-            onClick={openResetModal}
-            className={getButtonClass("danger")}
-          >
+          </Button>
+          <Button variant="danger" onClick={openResetModal}>
             Reset to Free
-          </button>
+          </Button>
         </div>
 
         <div className="mt-5 rounded-2xl border border-[var(--tb-border)] p-4 text-sm">
@@ -309,13 +302,9 @@ export default function Settings() {
         </p>
 
         <div className="mt-4 space-y-3">
-          <button
-            type="button"
-            onClick={handleExportJson}
-            className={getButtonClass("secondary")}
-          >
+          <Button variant="secondary" onClick={handleExportJson}>
             Export JSON
-          </button>
+          </Button>
           <textarea
             value={exportJson}
             readOnly
@@ -331,13 +320,9 @@ export default function Settings() {
             placeholder="Paste backup JSON to import (overwrite)."
             className={`min-h-36 text-xs ${textAreaClass}`}
           />
-          <button
-            type="button"
-            onClick={handleImportJson}
-            className={getButtonClass("secondary")}
-          >
+          <Button variant="secondary" onClick={handleImportJson}>
             Import JSON
-          </button>
+          </Button>
           {dataError && (
             <p className={`text-sm ${mutedTextClass}`}>{dataError}</p>
           )}
@@ -362,20 +347,20 @@ export default function Settings() {
 
                 {!showPromptRoute ? (
                   <div className="mt-5 space-y-2">
-                    <button
-                      type="button"
+                    <Button
+                      variant="secondary"
                       onClick={handleActivateWithLocalRoute}
-                      className={`w-full text-left ${getButtonClass("secondary")}`}
+                      className="w-full text-left"
                     >
                       0円で今月分を有効化する（local / mock）
-                    </button>
-                    <button
-                      type="button"
+                    </Button>
+                    <Button
+                      variant="secondary"
                       onClick={handleOpenPromptRoute}
-                      className={`w-full text-left ${getButtonClass("secondary")}`}
+                      className="w-full text-left"
                     >
                       お題で1ヶ月分を肩代わりする（prompt）
-                    </button>
+                    </Button>
                   </div>
                 ) : (
                   <div className="mt-5 space-y-3">
@@ -393,20 +378,18 @@ export default function Settings() {
                       <p className={`text-sm ${mutedTextClass}`}>{promptError}</p>
                     )}
                     <div className="flex justify-between gap-2">
-                      <button
-                        type="button"
+                      <Button
+                        variant="secondary"
                         onClick={() => setShowPromptRoute(false)}
-                        className={getButtonClass("secondary")}
                       >
                         Back
-                      </button>
-                      <button
-                        type="button"
+                      </Button>
+                      <Button
+                        variant="secondary"
                         onClick={handleSubmitPromptRoute}
-                        className={getButtonClass("secondary")}
                       >
                         回答して有効化
-                      </button>
+                      </Button>
                     </div>
                   </div>
                 )}
@@ -428,20 +411,12 @@ export default function Settings() {
                   Freeに戻します。よろしいですか？
                 </p>
                 <div className="mt-5 flex justify-end gap-2">
-                  <button
-                    type="button"
-                    onClick={closePremiumModal}
-                    className={getButtonClass("secondary")}
-                  >
+                  <Button variant="secondary" onClick={closePremiumModal}>
                     Cancel
-                  </button>
-                  <button
-                    type="button"
-                    onClick={handleConfirmReset}
-                    className={getButtonClass("primary")}
-                  >
+                  </Button>
+                  <Button variant="primary" onClick={handleConfirmReset}>
                     Confirm
-                  </button>
+                  </Button>
                 </div>
               </>
             )}
