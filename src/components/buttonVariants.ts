@@ -7,11 +7,11 @@ export type ButtonVariant =
   | "danger";
 
 const buttonBaseClass =
-  "rounded-xl border px-4 py-2 text-sm transition-colors transition-shadow";
+  "rounded-xl border px-4 py-2 text-sm transition-colors transition-shadow transition-opacity";
 
 const buttonVariantClasses: Record<ButtonVariant, string> = {
   primary:
-    "border-zinc-900 bg-zinc-900 text-white hover:bg-zinc-800 dark:border-zinc-100 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200",
+    "border-[var(--tb-text)] bg-[var(--tb-text)] text-[var(--tb-surface-bg)] hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50",
   secondary:
     "border-[var(--tb-border)] bg-[var(--tb-surface-bg)] text-[var(--tb-text)] hover:bg-[var(--tb-input-bg)] hover:ring-1 hover:ring-[var(--tb-border)]",
   premium:
