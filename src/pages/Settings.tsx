@@ -196,7 +196,7 @@ export default function Settings() {
                 onClick={() => setTheme(option.value)}
                 className={`rounded-xl px-4 py-2 text-sm ${
                   isSelected
-                    ? "border border-[var(--tb-border)] bg-[var(--tb-surface-bg)] font-semibold text-[var(--tb-text)] ring-2 ring-[var(--tb-border)]"
+                    ? "border border-[var(--tb-border)] bg-[var(--tb-input-bg)] font-semibold text-[var(--tb-text)] ring-2 ring-[var(--tb-border)]"
                     : isLocked
                       ? "cursor-not-allowed border border-[var(--tb-border)] bg-[var(--tb-input-bg)] text-[var(--tb-muted)] opacity-70"
                       : "border border-[var(--tb-border)] bg-[var(--tb-surface-bg)] text-[var(--tb-text)] hover:ring-2 hover:ring-[var(--tb-border)]"

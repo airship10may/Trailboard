@@ -15,6 +15,13 @@
 
 html.dark {
   color-scheme: dark;
+  --tb-page-bg: #18181b;
+  --tb-surface-bg: #27272a;
+  --tb-text: #f4f4f5;
+  --tb-muted: #a1a1aa;
+  --tb-border: #3f3f46;
+  --tb-input-bg: #1f1f23;
+  --tb-placeholder: #71717a;
 }
 
 body {
