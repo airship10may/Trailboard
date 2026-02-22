@@ -24,8 +24,9 @@ import {
   type AppTheme,
 } from "../data/theme";
 import Button from "../components/ui/Button";
-
-type PremiumActionType = "activate" | "reset";
+import PremiumActionModal, {
+  type PremiumActionType,
+} from "../components/settings/PremiumActionModal";
 
 const PROMPT_QUESTION = "人生であった一番甘酸っぱい瞬間は？";
 const sectionClass =
@@ -329,100 +330,20 @@ export default function Settings() {
         </div>
       </section>
 
-      {pendingPremiumAction && (
-        <div
-          className="fixed inset-0 z-40 flex items-end justify-center bg-zinc-950/45 p-4 sm:items-center"
-          onClick={closePremiumModal}
-        >
-          <div
-            className="w-full max-w-md rounded-3xl border border-[var(--tb-border)] bg-[var(--tb-surface-bg)] p-5 shadow-lg"
-            onClick={(event) => event.stopPropagation()}
-          >
-            {pendingPremiumAction === "activate" ? (
-              <>
-                <h3 className="text-base font-semibold">Activate Premium</h3>
-                <p className={`mt-2 text-sm ${mutedTextClass}`}>
-                  Premiumは0円/1カ月です。付与方法を選んでください。
-                </p>
-
-                {!showPromptRoute ? (
-                  <div className="mt-5 space-y-2">
-                    <Button
-                      variant="secondary"
-                      onClick={handleActivateWithLocalRoute}
-                      className="w-full text-left"
-                    >
-                      0円で今月分を有効化する（local / mock）
-                    </Button>
-                    <Button
-                      variant="secondary"
-                      onClick={handleOpenPromptRoute}
-                      className="w-full text-left"
-                    >
-                      お題で1ヶ月分を肩代わりする（prompt）
-                    </Button>
-                  </div>
-                ) : (
-                  <div className="mt-5 space-y-3">
-                    <div className="rounded-2xl border border-[var(--tb-border)] p-3 text-sm">
-                      <div className={mutedTextClass}>お題</div>
-                      <div className="mt-1">{PROMPT_QUESTION}</div>
-                    </div>
-                    <textarea
-                      value={promptAnswer}
-                      onChange={(event) => setPromptAnswer(event.target.value)}
-                      placeholder="回答を入力してください"
-                      className={`min-h-28 ${textAreaClass}`}
-                    />
-                    {promptError && (
-                      <p className={`text-sm ${mutedTextClass}`}>{promptError}</p>
-                    )}
-                    <div className="flex justify-between gap-2">
-                      <Button
-                        variant="secondary"
-                        onClick={() => setShowPromptRoute(false)}
-                      >
-                        Back
-                      </Button>
-                      <Button
-                        variant="secondary"
-                        onClick={handleSubmitPromptRoute}
-                      >
-                        回答して有効化
-                      </Button>
-                    </div>
-                  </div>
-                )}
-
-                <div className="mt-4 flex justify-end">
-                  <button
-                    type="button"
-                    onClick={closePremiumModal}
-                    className="rounded-xl px-3 py-2 text-xs text-[var(--tb-muted)] transition hover:bg-[var(--tb-input-bg)]"
-                  >
-                    Close
-                  </button>
-                </div>
-              </>
-            ) : (
-              <>
-                <h3 className="text-base font-semibold">Confirm action</h3>
-                <p className={`mt-2 text-sm ${mutedTextClass}`}>
-                  Freeに戻します。よろしいですか？
-                </p>
-                <div className="mt-5 flex justify-end gap-2">
-                  <Button variant="secondary" onClick={closePremiumModal}>
-                    Cancel
-                  </Button>
-                  <Button variant="primary" onClick={handleConfirmReset}>
-                    Confirm
-                  </Button>
-                </div>
-              </>
-            )}
-          </div>
-        </div>
-      )}
+      <PremiumActionModal
+        action={pendingPremiumAction}
+        showPromptRoute={showPromptRoute}
+        promptQuestion={PROMPT_QUESTION}
+        promptAnswer={promptAnswer}
+        promptError={promptError}
+        onClose={closePremiumModal}
+        onActivateWithLocalRoute={handleActivateWithLocalRoute}
+        onOpenPromptRoute={handleOpenPromptRoute}
+        onBackFromPromptRoute={() => setShowPromptRoute(false)}
+        onPromptAnswerChange={setPromptAnswer}
+        onSubmitPromptRoute={handleSubmitPromptRoute}
+        onConfirmReset={handleConfirmReset}
+      />
     </div>
   );
 }
