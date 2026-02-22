@@ -23,7 +23,7 @@ export default function Settings() {
       <section className="rounded-3xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
         <h1 className="text-xl font-semibold">Settings</h1>
         <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
-          バックエンドなしで「操作→状態→反映」を作る練習用です。
+          テーマを選択できます(Light/Dark)
         </p>
 
         <div className="mt-5 flex items-center gap-3">
