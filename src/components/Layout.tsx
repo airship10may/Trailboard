@@ -2,6 +2,7 @@ import { Outlet, Link, useLocation } from "react-router-dom";
 
 export default function Layout() {
   const loc = useLocation();
+  const isHomeActive = loc.pathname === "/" || loc.pathname.startsWith("/trail/");
 
   return (
     <div className="min-h-dvh">
@@ -21,7 +22,7 @@ export default function Layout() {
             <Link
               to="/"
               className={`rounded-xl px-3 py-2 text-sm ${
-                loc.pathname === "/"
+                isHomeActive
                   ? "bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900"
                   : "text-zinc-600 hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-900"
               }`}
