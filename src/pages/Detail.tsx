@@ -8,6 +8,7 @@ import {
   parseTags,
   updateTrail,
 } from "../data/trails";
+import { getButtonClass } from "../components/buttonVariants";
 
 export default function Detail() {
   const navigate = useNavigate();
@@ -129,14 +130,14 @@ export default function Detail() {
         <div className="mt-6 flex flex-wrap gap-3">
           <Link
             to="/"
-            className="rounded-xl border border-zinc-200 px-4 py-2 text-sm transition-colors transition-shadow hover:border-zinc-300 hover:bg-zinc-100 hover:shadow-sm dark:border-zinc-700 dark:hover:border-zinc-700 dark:hover:bg-zinc-700"
+            className={getButtonClass("secondary")}
           >
             Back
           </Link>
           <button
             type="button"
             onClick={handleStartEdit}
-            className="rounded-xl border border-zinc-200 px-4 py-2 text-sm text-zinc-600 transition-colors transition-shadow hover:border-emerald-200 hover:bg-emerald-50 hover:text-emerald-700 hover:shadow-sm dark:border-zinc-700 dark:text-zinc-300 dark:hover:border-emerald-900/70 dark:hover:bg-emerald-950/40 dark:hover:text-emerald-300"
+            className={getButtonClass("success")}
           >
             Edit
           </button>
@@ -144,7 +145,7 @@ export default function Detail() {
             type="button"
             onClick={handleDelete}
             disabled={isDeleting}
-            className="rounded-xl border border-zinc-200 px-4 py-2 text-sm text-zinc-600 transition-colors transition-shadow hover:border-red-200 hover:bg-red-50 hover:text-red-700 hover:shadow-sm dark:border-zinc-700 dark:text-zinc-300 dark:hover:border-red-900/70 dark:hover:bg-red-950/40 dark:hover:text-red-300"
+            className={getButtonClass("danger")}
           >
             {isDeleting ? "Deleting..." : "Delete"}
           </button>
@@ -204,13 +205,13 @@ export default function Detail() {
               <button
                 type="button"
                 onClick={handleCancelEdit}
-                className="rounded-xl border border-zinc-200 px-4 py-2 text-sm hover:bg-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-700"
+                className={getButtonClass("secondary")}
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="rounded-xl bg-zinc-900 px-4 py-2 text-sm text-white hover:opacity-90 dark:bg-zinc-100 dark:text-zinc-900"
+                className={getButtonClass("primary")}
               >
                 Save
               </button>
