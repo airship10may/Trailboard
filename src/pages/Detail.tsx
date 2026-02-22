@@ -113,7 +113,7 @@ export default function Detail() {
           {trail.tags.map((tag) => (
             <span
               key={tag}
-              className="rounded-full bg-zinc-900 px-3 py-1 text-xs text-white dark:bg-zinc-100 dark:text-zinc-900"
+              className="rounded-full border border-[var(--tb-border)] bg-[var(--tb-input-bg)] px-3 py-1 text-xs text-[var(--tb-text)]"
             >
               #{tag}
             </span>
