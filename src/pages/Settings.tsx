@@ -14,6 +14,7 @@ import {
 } from "../data/entitlement";
 
 type Theme = "light" | "dark";
+type PremiumActionType = "activate" | "reset";
 
 export default function Settings() {
   const initial = useMemo<Theme>(() => {
@@ -26,6 +27,8 @@ export default function Settings() {
   const [exportJson, setExportJson] = useState("");
   const [importJson, setImportJson] = useState("");
   const [dataError, setDataError] = useState<string | null>(null);
+  const [pendingPremiumAction, setPendingPremiumAction] =
+    useState<PremiumActionType | null>(null);
 
   const premiumActive = useMemo(
     () => isPremiumActive(entitlement),
@@ -47,12 +50,34 @@ export default function Settings() {
     saveEntitlement(entitlement);
   }, [entitlement]);
 
-  function handleActivatePremium() {
+  useEffect(() => {
+    if (!pendingPremiumAction) return;
+
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setPendingPremiumAction(null);
+      }
+    }
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [pendingPremiumAction]);
+
+  function activatePremium() {
     setEntitlement(createLocalPremiumEntitlement(30));
   }
 
-  function handleResetToFree() {
+  function resetToFree() {
     setEntitlement(createFreeEntitlement());
+  }
+
+  function handleConfirmPremiumAction() {
+    if (pendingPremiumAction === "activate") {
+      activatePremium();
+    } else if (pendingPremiumAction === "reset") {
+      resetToFree();
+    }
+    setPendingPremiumAction(null);
   }
 
   function handleExportJson() {
@@ -146,15 +171,15 @@ export default function Settings() {
         <div className="mt-5 flex flex-wrap gap-3">
           <button
             type="button"
-            onClick={handleActivatePremium}
-            className="rounded-xl border border-zinc-200 px-4 py-2 text-sm hover:bg-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-700"
+            onClick={() => setPendingPremiumAction("activate")}
+            className="rounded-xl border border-zinc-200 px-4 py-2 text-sm transition-colors hover:border-amber-200 hover:bg-amber-50 hover:text-amber-800 dark:border-zinc-700 dark:hover:border-amber-900/70 dark:hover:bg-amber-950/40 dark:hover:text-amber-300"
           >
             Activate Premium (+30 days)
           </button>
           <button
             type="button"
-            onClick={handleResetToFree}
-            className="rounded-xl border border-zinc-200 px-4 py-2 text-sm hover:bg-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-700"
+            onClick={() => setPendingPremiumAction("reset")}
+            className="rounded-xl border border-zinc-200 px-4 py-2 text-sm transition-colors hover:border-red-200 hover:bg-red-50 hover:text-red-700 dark:border-zinc-700 dark:hover:border-red-900/70 dark:hover:bg-red-950/40 dark:hover:text-red-300"
           >
             Reset to Free
           </button>
@@ -202,6 +227,36 @@ export default function Settings() {
           )}
         </div>
       </section>
+
+      {pendingPremiumAction && (
+        <div className="fixed inset-0 z-40 flex items-end justify-center bg-zinc-950/45 p-4 sm:items-center">
+          <div className="w-full max-w-md rounded-3xl border border-zinc-200 bg-white p-5 shadow-lg dark:border-zinc-700 dark:bg-zinc-800">
+            <h3 className="text-base font-semibold">Confirm action</h3>
+            <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-300">
+              {pendingPremiumAction === "activate"
+                ? "Premiumを30日付与します。よろしいですか？"
+                : "Freeに戻します。よろしいですか？"}
+            </p>
+
+            <div className="mt-5 flex justify-end gap-2">
+              <button
+                type="button"
+                onClick={() => setPendingPremiumAction(null)}
+                className="rounded-xl border border-zinc-200 px-4 py-2 text-sm hover:bg-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-700"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleConfirmPremiumAction}
+                className="rounded-xl bg-zinc-900 px-4 py-2 text-sm text-white hover:opacity-90 dark:bg-zinc-100 dark:text-zinc-900"
+              >
+                Confirm
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
