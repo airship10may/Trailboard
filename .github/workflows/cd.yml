@@ -50,6 +50,9 @@ jobs:
       - name: Build
         run: npm run build -- --base "${{ steps.base.outputs.value }}"
 
+      - name: SPA fallback for GitHub Pages
+        run: cp dist/index.html dist/404.html
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
