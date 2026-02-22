@@ -8,9 +8,9 @@
   <body>
     <script>
       (function () {
-        var repo = (location.pathname.split("/")[1] || "").trim();
-        var base = repo ? "/" + repo + "/" : "/";
-        location.replace(location.origin + base);
+        var isProjectPath = window.location.pathname.startsWith("/Trailboard/");
+        var targetPath = isProjectPath ? "/Trailboard/" : "/";
+        window.location.replace(window.location.origin + targetPath);
       })();
     </script>
   </body>
