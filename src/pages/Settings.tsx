@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 
 type Theme = "light" | "dark";
+const THEME_STORAGE_KEY = "trailboard.theme";
 
 export default function Settings() {
   const initial = useMemo<Theme>(() => {
-    const saved = localStorage.getItem("theme");
+    const saved = localStorage.getItem(THEME_STORAGE_KEY);
     return saved === "dark" ? "dark" : "light";
   }, []);
 
@@ -14,7 +15,7 @@ export default function Settings() {
     const html = document.documentElement;
     if (theme === "dark") html.classList.add("dark");
     else html.classList.remove("dark");
-    localStorage.setItem("theme", theme);
+    localStorage.setItem(THEME_STORAGE_KEY, theme);
   }, [theme]);
 
   return (
