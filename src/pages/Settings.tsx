@@ -3,7 +3,6 @@ import {
   dumpAppState,
   parseAppStateSnapshot,
   restoreAppState,
-  THEME_STORAGE_KEY,
 } from "../data/appState";
 import {
   createFreeEntitlement,
@@ -17,20 +16,24 @@ import {
   savePromptSubmissions,
   type PromptSubmission,
 } from "../data/promptSubmissions";
+import {
+  applyThemeToDocument,
+  getThemeFromStorage,
+  resolveThemeForEntitlement,
+  THEME_OPTIONS,
+  type AppTheme,
+} from "../data/theme";
 
-type Theme = "light" | "dark";
 type PremiumActionType = "activate" | "reset";
 
 const PROMPT_QUESTION = "人生であった一番甘酸っぱい瞬間は？";
 
 export default function Settings() {
-  const initial = useMemo<Theme>(() => {
-    const saved = localStorage.getItem(THEME_STORAGE_KEY);
-    return saved === "dark" ? "dark" : "light";
-  }, []);
-
-  const [theme, setTheme] = useState<Theme>(initial);
-  const [entitlement, setEntitlement] = useState(() => loadEntitlement());
+  const initialEntitlement = useMemo(() => loadEntitlement(), []);
+  const [entitlement, setEntitlement] = useState(initialEntitlement);
+  const [theme, setTheme] = useState<AppTheme>(() =>
+    resolveThemeForEntitlement(getThemeFromStorage(), initialEntitlement)
+  );
   const [promptSubmissions, setPromptSubmissions] = useState<PromptSubmission[]>(
     () => loadPromptSubmissions()
   );
@@ -55,10 +58,7 @@ export default function Settings() {
   const isActivateDisabled = premiumActive;
 
   useEffect(() => {
-    const html = document.documentElement;
-    if (theme === "dark") html.classList.add("dark");
-    else html.classList.remove("dark");
-    localStorage.setItem(THEME_STORAGE_KEY, theme);
+    applyThemeToDocument(theme);
   }, [theme]);
 
   useEffect(() => {
@@ -94,7 +94,11 @@ export default function Settings() {
   }
 
   function resetToFree() {
-    setEntitlement(createFreeEntitlement());
+    const freeEntitlement = createFreeEntitlement();
+    setEntitlement(freeEntitlement);
+    setTheme((currentTheme) =>
+      resolveThemeForEntitlement(currentTheme, freeEntitlement)
+    );
   }
 
   function openActivateModal() {
@@ -169,31 +173,43 @@ export default function Settings() {
       <section className="rounded-3xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-700 dark:bg-zinc-800">
         <h1 className="text-xl font-semibold">Settings</h1>
         <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
-          テーマを選択できます(Light/Dark)
+          Select app theme (Premium unlocks additional variations)
         </p>
 
-        <div className="mt-5 flex items-center gap-3">
-          <button
-            onClick={() => setTheme("light")}
-            className={`rounded-xl px-4 py-2 text-sm ${
-              theme === "light"
-                ? "bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900"
-                : "border border-zinc-200 hover:bg-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-700"
-            }`}
-          >
-            Light
-          </button>
-          <button
-            onClick={() => setTheme("dark")}
-            className={`rounded-xl px-4 py-2 text-sm ${
-              theme === "dark"
-                ? "bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900"
-                : "border border-zinc-200 hover:bg-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-700"
-            }`}
-          >
-            Dark
-          </button>
+        <div className="mt-5 flex flex-wrap items-center gap-3">
+          {THEME_OPTIONS.map((option) => {
+            const isLocked = option.premiumOnly && !premiumActive;
+            const isSelected = theme === option.value;
+
+            return (
+              <button
+                key={option.value}
+                type="button"
+                disabled={isLocked}
+                onClick={() => setTheme(option.value)}
+                className={`rounded-xl px-4 py-2 text-sm ${
+                  isSelected
+                    ? "bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900"
+                    : isLocked
+                      ? "cursor-not-allowed border border-zinc-200 bg-zinc-100 text-zinc-500 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-400"
+                      : "border border-zinc-200 hover:bg-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-700"
+                }`}
+              >
+                {option.label}
+                {option.premiumOnly ? " (Premium)" : ""}
+              </button>
+            );
+          })}
         </div>
+        {!premiumActive && (
+          <p className="mt-3 text-sm text-amber-700 dark:text-amber-300">
+            Premium themes are locked. Activate Premium to use Soft Dark, Ivory,
+            and Ash Grey.
+          </p>
+        )}
+        <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-300">
+          Premium theme falls back to Light when entitlement becomes inactive.
+        </p>
       </section>
 
       <section className="rounded-3xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-700 dark:bg-zinc-800">

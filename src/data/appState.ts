@@ -7,14 +7,17 @@ import {
   saveTrails,
   type Trail,
 } from "./trails";
-
-export const THEME_STORAGE_KEY = "trailboard.theme";
+import {
+  isTheme,
+  THEME_STORAGE_KEY,
+  type AppTheme,
+} from "./theme";
 
 export type AppDataSnapshot = {
   version: number;
   exportedAt: number;
   cards: Trail[];
-  theme: "light" | "dark";
+  theme: AppTheme;
   entitlement: Entitlement;
 };
 
@@ -30,10 +33,6 @@ function isTrail(value: unknown): value is Trail {
     candidate.tags.every((tag) => typeof tag === "string") &&
     typeof candidate.minutes === "number"
   );
-}
-
-function isTheme(value: unknown): value is "light" | "dark" {
-  return value === "light" || value === "dark";
 }
 
 function isEntitlement(value: unknown): value is Entitlement {
@@ -56,7 +55,7 @@ function isEntitlement(value: unknown): value is Entitlement {
 }
 
 export function dumpAppState(params: {
-  theme: "light" | "dark";
+  theme: AppTheme;
   entitlement: Entitlement;
 }): AppDataSnapshot {
   return {
