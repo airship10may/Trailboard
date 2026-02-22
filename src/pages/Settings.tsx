@@ -68,6 +68,13 @@ export default function Settings() {
     savePromptSubmissions(promptSubmissions);
   }, [promptSubmissions]);
 
+  function closePremiumModal() {
+    setPendingPremiumAction(null);
+    setShowPromptRoute(false);
+    setPromptAnswer("");
+    setPromptError(null);
+  }
+
   useEffect(() => {
     if (!pendingPremiumAction) return;
 
@@ -80,13 +87,6 @@ export default function Settings() {
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [pendingPremiumAction]);
-
-  function closePremiumModal() {
-    setPendingPremiumAction(null);
-    setShowPromptRoute(false);
-    setPromptAnswer("");
-    setPromptError(null);
-  }
 
   function activatePremium(source: "local" | "prompt") {
     setEntitlement(createPremiumEntitlement(30, source));
