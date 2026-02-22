@@ -126,23 +126,17 @@ export default function Detail() {
           </div>
         </div>
 
-        <div className="mt-6 flex gap-3">
+        <div className="mt-6 flex flex-wrap gap-3">
           <Link
             to="/"
-            className="rounded-xl border border-zinc-200 px-4 py-2 text-sm hover:bg-zinc-100 dark:border-zinc-800 dark:hover:bg-zinc-800"
+            className="rounded-xl border border-zinc-200 px-4 py-2 text-sm transition-colors transition-shadow hover:border-zinc-300 hover:bg-zinc-100 hover:shadow-sm dark:border-zinc-800 dark:hover:border-zinc-700 dark:hover:bg-zinc-800"
           >
             Back
-          </Link>
-          <Link
-            to="/settings"
-            className="rounded-xl bg-zinc-900 px-4 py-2 text-sm text-white hover:opacity-90 dark:bg-zinc-100 dark:text-zinc-900"
-          >
-            Settings
           </Link>
           <button
             type="button"
             onClick={handleStartEdit}
-            className="rounded-xl border border-zinc-200 px-4 py-2 text-sm text-zinc-600 hover:bg-zinc-100 dark:border-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-800"
+            className="rounded-xl border border-zinc-200 px-4 py-2 text-sm text-zinc-600 transition-colors transition-shadow hover:border-zinc-300 hover:bg-zinc-100 hover:shadow-sm dark:border-zinc-800 dark:text-zinc-300 dark:hover:border-zinc-700 dark:hover:bg-zinc-800"
           >
             Edit
           </button>
@@ -150,7 +144,7 @@ export default function Detail() {
             type="button"
             onClick={handleDelete}
             disabled={isDeleting}
-            className="rounded-xl border border-zinc-200 px-4 py-2 text-sm text-zinc-600 hover:bg-zinc-100 dark:border-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-800"
+            className="rounded-xl border border-zinc-200 px-4 py-2 text-sm text-zinc-600 transition-colors transition-shadow hover:border-red-200 hover:bg-red-50 hover:text-red-700 hover:shadow-sm dark:border-zinc-800 dark:text-zinc-300 dark:hover:border-red-900/70 dark:hover:bg-red-950/40 dark:hover:text-red-300"
           >
             {isDeleting ? "Deleting..." : "Delete"}
           </button>
