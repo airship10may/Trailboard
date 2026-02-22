@@ -1,5 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 import {
+  dumpAppState,
+  parseAppStateSnapshot,
+  restoreAppState,
+  THEME_STORAGE_KEY,
+} from "../data/appState";
+import {
   createFreeEntitlement,
   createLocalPremiumEntitlement,
   isPremiumActive,
@@ -8,7 +14,6 @@ import {
 } from "../data/entitlement";
 
 type Theme = "light" | "dark";
-const THEME_STORAGE_KEY = "trailboard.theme";
 
 export default function Settings() {
   const initial = useMemo<Theme>(() => {
@@ -18,6 +23,9 @@ export default function Settings() {
 
   const [theme, setTheme] = useState<Theme>(initial);
   const [entitlement, setEntitlement] = useState(() => loadEntitlement());
+  const [exportJson, setExportJson] = useState("");
+  const [importJson, setImportJson] = useState("");
+  const [dataError, setDataError] = useState<string | null>(null);
 
   const premiumActive = useMemo(
     () => isPremiumActive(entitlement),
@@ -45,6 +53,29 @@ export default function Settings() {
 
   function handleResetToFree() {
     setEntitlement(createFreeEntitlement());
+  }
+
+  function handleExportJson() {
+    const snapshot = dumpAppState({ theme, entitlement });
+    setExportJson(JSON.stringify(snapshot, null, 2));
+    setDataError(null);
+  }
+
+  function handleImportJson() {
+    const confirmed = window.confirm(
+      "Import will overwrite current local data. Continue?"
+    );
+    if (!confirmed) return;
+
+    try {
+      const snapshot = parseAppStateSnapshot(importJson);
+      restoreAppState(snapshot);
+      window.location.reload();
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "Failed to import data.";
+      setDataError(message);
+    }
   }
 
   return (
@@ -127,6 +158,48 @@ export default function Settings() {
           >
             Reset to Free
           </button>
+        </div>
+      </section>
+
+      <section className="rounded-3xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-700 dark:bg-zinc-800">
+        <h2 className="text-xl font-semibold">Data</h2>
+        <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
+          Export / Import local backup JSON
+        </p>
+
+        <div className="mt-4 space-y-3">
+          <button
+            type="button"
+            onClick={handleExportJson}
+            className="rounded-xl border border-zinc-200 px-4 py-2 text-sm hover:bg-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-700"
+          >
+            Export JSON
+          </button>
+          <textarea
+            value={exportJson}
+            readOnly
+            placeholder="Exported JSON will appear here."
+            className="min-h-36 w-full rounded-2xl border border-zinc-200 bg-white px-3 py-2 text-xs outline-none dark:border-zinc-700 dark:bg-zinc-900"
+          />
+        </div>
+
+        <div className="mt-5 space-y-3">
+          <textarea
+            value={importJson}
+            onChange={(event) => setImportJson(event.target.value)}
+            placeholder="Paste backup JSON to import (overwrite)."
+            className="min-h-36 w-full rounded-2xl border border-zinc-200 bg-white px-3 py-2 text-xs outline-none focus:border-zinc-400 focus:ring-2 focus:ring-zinc-200 dark:border-zinc-700 dark:bg-zinc-900 dark:focus:border-zinc-600 dark:focus:ring-zinc-800"
+          />
+          <button
+            type="button"
+            onClick={handleImportJson}
+            className="rounded-xl border border-zinc-200 px-4 py-2 text-sm hover:bg-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-700"
+          >
+            Import JSON
+          </button>
+          {dataError && (
+            <p className="text-sm text-red-600 dark:text-red-400">{dataError}</p>
+          )}
         </div>
       </section>
     </div>
