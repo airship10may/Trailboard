@@ -89,7 +89,7 @@ export default function Home() {
           <div>
             <h1 className="text-xl font-semibold">今日のボード</h1>
             <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
-              カードをクリックすると詳細へ遷移します（データはフロント内のモックです）
+              カードをクリックすると詳細へ遷移します。
             </p>
           </div>
           <button
