@@ -66,11 +66,19 @@ export function isPremiumActive(entitlement: Entitlement, now = Date.now()) {
   return entitlement.expiresAt > now;
 }
 
-export function createLocalPremiumEntitlement(days: number, now = Date.now()) {
+export function createPremiumEntitlement(
+  days: number,
+  source: EntitlementSource,
+  now = Date.now()
+) {
   return {
     plan: "premium",
     expiresAt: now + days * ONE_DAY_MS,
-    source: "local",
+    source,
     updatedAt: now,
   } satisfies Entitlement;
+}
+
+export function createLocalPremiumEntitlement(days: number, now = Date.now()) {
+  return createPremiumEntitlement(days, "local", now);
 }
