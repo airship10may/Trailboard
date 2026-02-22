@@ -52,6 +52,7 @@ export default function Settings() {
     return new Date(entitlement.expiresAt).toLocaleDateString();
   }, [entitlement.expiresAt]);
   const latestPromptSubmission = promptSubmissions[0] ?? null;
+  const isActivateDisabled = premiumActive;
 
   useEffect(() => {
     const html = document.documentElement;
@@ -97,6 +98,7 @@ export default function Settings() {
   }
 
   function openActivateModal() {
+    if (isActivateDisabled) return;
     setPendingPremiumAction("activate");
     setShowPromptRoute(false);
     setPromptAnswer("");
@@ -230,10 +232,17 @@ export default function Settings() {
         <div className="mt-5 flex flex-wrap gap-3">
           <button
             type="button"
+            disabled={isActivateDisabled}
             onClick={openActivateModal}
-            className="rounded-xl border border-zinc-200 px-4 py-2 text-sm transition-colors hover:border-amber-200 hover:bg-amber-50 hover:text-amber-800 dark:border-zinc-700 dark:hover:border-amber-900/70 dark:hover:bg-amber-950/40 dark:hover:text-amber-300"
+            className={`rounded-xl border px-4 py-2 text-sm transition-colors ${
+              isActivateDisabled
+                ? "cursor-not-allowed border-amber-200 bg-amber-50 text-amber-800/80 dark:border-amber-900/70 dark:bg-amber-950/40 dark:text-amber-300/80"
+                : "border-zinc-200 hover:border-amber-200 hover:bg-amber-50 hover:text-amber-800 dark:border-zinc-700 dark:hover:border-amber-900/70 dark:hover:bg-amber-950/40 dark:hover:text-amber-300"
+            }`}
           >
-            Activate Premium (+30 days)
+            {isActivateDisabled
+              ? "Premium Active (+30 days locked)"
+              : "Activate Premium (+30 days)"}
           </button>
           <button
             type="button"
@@ -316,8 +325,14 @@ export default function Settings() {
       </section>
 
       {pendingPremiumAction && (
-        <div className="fixed inset-0 z-40 flex items-end justify-center bg-zinc-950/45 p-4 sm:items-center">
-          <div className="w-full max-w-md rounded-3xl border border-zinc-200 bg-white p-5 shadow-lg dark:border-zinc-700 dark:bg-zinc-800">
+        <div
+          className="fixed inset-0 z-40 flex items-end justify-center bg-zinc-950/45 p-4 sm:items-center"
+          onClick={closePremiumModal}
+        >
+          <div
+            className="w-full max-w-md rounded-3xl border border-zinc-200 bg-white p-5 shadow-lg dark:border-zinc-700 dark:bg-zinc-800"
+            onClick={(event) => event.stopPropagation()}
+          >
             {pendingPremiumAction === "activate" ? (
               <>
                 <h3 className="text-base font-semibold">Activate Premium</h3>
@@ -377,6 +392,16 @@ export default function Settings() {
                     </div>
                   </div>
                 )}
+
+                <div className="mt-4 flex justify-end">
+                  <button
+                    type="button"
+                    onClick={closePremiumModal}
+                    className="rounded-xl px-3 py-2 text-xs text-zinc-500 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-700"
+                  >
+                    Close
+                  </button>
+                </div>
               </>
             ) : (
               <>
@@ -402,16 +427,6 @@ export default function Settings() {
                 </div>
               </>
             )}
-
-            <div className="mt-4 flex justify-end">
-              <button
-                type="button"
-                onClick={closePremiumModal}
-                className="rounded-xl px-3 py-2 text-xs text-zinc-500 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-700"
-              >
-                Close
-              </button>
-            </div>
           </div>
         </div>
       )}
