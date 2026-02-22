@@ -13,6 +13,7 @@ import type { Trail } from "../data/trails";
 export default function Home() {
   const nav = useNavigate();
   const [query, setQuery] = useState("");
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [items, setItems] = useState<Trail[]>(() => getPreferredTrails());
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [titleInput, setTitleInput] = useState("");
@@ -21,19 +22,47 @@ export default function Home() {
   const [durationInput, setDurationInput] = useState("");
   const [formError, setFormError] = useState<string | null>(null);
 
+  const tagSummaries = useMemo(() => {
+    const counts = new Map<string, number>();
+
+    items.forEach((trail) => {
+      trail.tags.forEach((tag) => {
+        const normalized = tag.trim().toLowerCase();
+        if (!normalized) return;
+        counts.set(normalized, (counts.get(normalized) ?? 0) + 1);
+      });
+    });
+
+    return Array.from(counts.entries())
+      .sort(([aTag, aCount], [bTag, bCount]) => {
+        if (bCount !== aCount) return bCount - aCount;
+        return aTag.localeCompare(bTag);
+      })
+      .map(([tag, count]) => ({ tag, count }));
+  }, [items]);
+
   const filteredTrails = useMemo(() => {
     const normalized = query.trim().toLowerCase();
-    if (!normalized) return items;
 
     return items.filter((trail) => {
-      const titleMatch = trail.title.toLowerCase().includes(normalized);
-      const subtitleMatch = trail.subtitle.toLowerCase().includes(normalized);
-      const tagMatch = trail.tags.some((tag) =>
-        tag.toLowerCase().includes(normalized)
+      const queryMatch =
+        !normalized ||
+        trail.title.toLowerCase().includes(normalized) ||
+        trail.subtitle.toLowerCase().includes(normalized) ||
+        trail.tags.some((tag) => tag.toLowerCase().includes(normalized));
+      const selectedTagMatch = selectedTags.every((selectedTag) =>
+        trail.tags.some((tag) => tag.toLowerCase() === selectedTag)
       );
-      return titleMatch || subtitleMatch || tagMatch;
+
+      return queryMatch && selectedTagMatch;
     });
-  }, [items, query]);
+  }, [items, query, selectedTags]);
+
+  function toggleTag(tag: string) {
+    setSelectedTags((prev) =>
+      prev.includes(tag) ? prev.filter((value) => value !== tag) : [...prev, tag]
+    );
+  }
 
   function closeModal() {
     setIsModalOpen(false);
@@ -117,6 +146,48 @@ export default function Home() {
           placeholder="Search by title, description, or tags"
           className="w-full rounded-2xl border border-zinc-200 bg-white px-4 py-2 text-sm text-zinc-900 shadow-sm outline-none transition focus:border-zinc-400 focus:ring-2 focus:ring-zinc-200 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-100 dark:focus:border-zinc-600 dark:focus:ring-zinc-800"
         />
+
+        <div className="mt-4 space-y-2">
+          <div className="flex items-center justify-between gap-3">
+            <p className="text-xs font-medium text-zinc-600 dark:text-zinc-300">
+              Tags
+            </p>
+            {selectedTags.length > 0 && (
+              <button
+                type="button"
+                onClick={() => setSelectedTags([])}
+                className="text-xs text-zinc-500 underline hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200"
+              >
+                Clear
+              </button>
+            )}
+          </div>
+
+          {tagSummaries.length === 0 ? (
+            <p className="text-xs text-zinc-500 dark:text-zinc-400">No tags</p>
+          ) : (
+            <div className="flex flex-wrap gap-2">
+              {tagSummaries.map(({ tag, count }) => {
+                const isSelected = selectedTags.includes(tag);
+
+                return (
+                  <button
+                    key={tag}
+                    type="button"
+                    onClick={() => toggleTag(tag)}
+                    className={`rounded-full border px-3 py-1 text-xs transition-colors ${
+                      isSelected
+                        ? "border-zinc-900 bg-zinc-900 text-white dark:border-zinc-100 dark:bg-zinc-100 dark:text-zinc-900"
+                        : "border-zinc-200 text-zinc-700 hover:bg-zinc-100 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
+                    }`}
+                  >
+                    #{tag} ({count})
+                  </button>
+                );
+              })}
+            </div>
+          )}
+        </div>
       </section>
 
       <section className="grid grid-cols-1 gap-4 md:grid-cols-2">
