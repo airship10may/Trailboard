@@ -9,18 +9,27 @@ import {
   saveTrails,
 } from "../data/trails";
 import type { Trail } from "../data/trails";
+import { isPremiumActive, loadEntitlement } from "../data/entitlement";
+
+const FREE_CARD_LIMIT = 10;
 
 export default function Home() {
   const nav = useNavigate();
   const [query, setQuery] = useState("");
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [items, setItems] = useState<Trail[]>(() => getPreferredTrails());
+  const [entitlement] = useState(() => loadEntitlement());
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [titleInput, setTitleInput] = useState("");
   const [descriptionInput, setDescriptionInput] = useState("");
   const [tagsInput, setTagsInput] = useState("");
   const [durationInput, setDurationInput] = useState("");
   const [formError, setFormError] = useState<string | null>(null);
+  const premiumActive = useMemo(
+    () => isPremiumActive(entitlement),
+    [entitlement]
+  );
+  const isCreateLimitReached = !premiumActive && items.length >= FREE_CARD_LIMIT;
 
   const tagSummaries = useMemo(() => {
     const counts = new Map<string, number>();
@@ -78,12 +87,20 @@ export default function Home() {
   }
 
   function handleOpenModal() {
+    if (isCreateLimitReached) return;
     resetForm();
     setIsModalOpen(true);
   }
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
+    if (isCreateLimitReached) {
+      setFormError(
+        `Free plan can create up to ${FREE_CARD_LIMIT} cards. Upgrade to Premium to add more.`
+      );
+      return;
+    }
 
     const title = titleInput.trim();
     if (!title) {
@@ -124,11 +141,22 @@ export default function Home() {
           <button
             type="button"
             onClick={handleOpenModal}
-            className="shrink-0 rounded-xl bg-zinc-900 px-3 py-2 text-sm text-white hover:opacity-90 dark:bg-zinc-100 dark:text-zinc-900"
+            disabled={isCreateLimitReached}
+            className={`shrink-0 rounded-xl px-3 py-2 text-sm ${
+              isCreateLimitReached
+                ? "cursor-not-allowed bg-zinc-300 text-zinc-600 dark:bg-zinc-600 dark:text-zinc-300"
+                : "bg-zinc-900 text-white hover:opacity-90 dark:bg-zinc-100 dark:text-zinc-900"
+            }`}
           >
             + New
           </button>
         </div>
+        {isCreateLimitReached && (
+          <p className="mt-3 text-sm text-amber-700 dark:text-amber-300">
+            Free plan limit reached ({FREE_CARD_LIMIT} cards). Upgrade to Premium
+            to create more cards.
+          </p>
+        )}
       </section>
 
       <section className="rounded-3xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-zinc-700 dark:bg-zinc-800">
