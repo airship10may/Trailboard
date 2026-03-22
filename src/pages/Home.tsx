@@ -67,11 +67,17 @@ export default function Home() {
       return queryMatch && selectedTagMatch;
     });
   }, [items, query, selectedTags]);
+  const hasActiveFilters = query.trim().length > 0 || selectedTags.length > 0;
 
   function toggleTag(tag: string) {
     setSelectedTags((prev) =>
       prev.includes(tag) ? prev.filter((value) => value !== tag) : [...prev, tag]
     );
+  }
+
+  function clearFilters() {
+    setQuery("");
+    setSelectedTags([]);
   }
 
   function closeModal() {
@@ -161,12 +167,23 @@ export default function Home() {
       </section>
 
       <section className="rounded-3xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-zinc-700 dark:bg-zinc-800">
-        <label
-          htmlFor="trail-search"
-          className="mb-2 block text-sm font-medium text-zinc-700 dark:text-zinc-300"
-        >
-          Search
-        </label>
+        <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
+          <label
+            htmlFor="trail-search"
+            className="text-sm font-medium text-zinc-700 dark:text-zinc-300"
+          >
+            Search
+          </label>
+          {hasActiveFilters && (
+            <Button
+              variant="secondary"
+              onClick={clearFilters}
+              className="px-3 py-1.5 text-xs"
+            >
+              Clear filters
+            </Button>
+          )}
+        </div>
         <input
           id="trail-search"
           type="text"
@@ -181,15 +198,6 @@ export default function Home() {
             <p className="text-xs font-medium text-zinc-600 dark:text-zinc-300">
               Tags
             </p>
-            {selectedTags.length > 0 && (
-              <button
-                type="button"
-                onClick={() => setSelectedTags([])}
-                className="text-xs text-zinc-500 underline hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200"
-              >
-                Clear
-              </button>
-            )}
           </div>
 
           {tagSummaries.length === 0 ? (
