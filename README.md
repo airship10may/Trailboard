@@ -102,6 +102,11 @@ git cleanup
 - `git push -u origin HEAD` が失敗した場合は、認証状態とブランチ権限を確認し、必要なら人間が push を代行する
 - `gh pr create` が失敗した場合は、Codex が PR 本文を出力し、人間が GitHub UI で PR を作成する
 - `./scripts/publish_commit.sh` は人間向け補助スクリプトとして残してよいが、Codex の標準運用では使用しない
+- ※./scripts/publish_commit.shへの権限の付与は下記コマンド
+```
+chmod +x ./scripts/publish_commit.sh
+```
+
 
 ## 重要な方針（Why this design）
  - Vibe Coding は実行環境（WSL / DNS / 認証 / ネットワーク）に強く依存する
