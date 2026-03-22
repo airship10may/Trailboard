@@ -29,14 +29,14 @@ You are Codex working in this repo as an autonomous contributor.
 - Do NOT use force-push unless the user explicitly asks for it.
 - If push or PR creation fails because of auth or network issues, report the failure clearly and provide the PR body text using the PR template sections (.github/PULL_REQUEST_TEMPLATE.md) so a human can finish the external step.
 
-## PR body output must include
-- Summary (what & why)
-- What changed (bullet list)
-- How to verify (exact commands + manual steps)
-- Scope / Out of scope
-- Risks / trade-offs
-- Follow-ups (if any)
-- Open Questions (if any)
+## PR body output must include (in Japanese)
+- 概要 (what & why)
+- 変更内容/内容詳細 (bullet list)
+- 検証方法 (exact commands + manual steps)
+- スコープ / スコープ外
+- リスク / トレードオフ
+- フォローアップ (if any)
+- 未解決の質問 (if any)
 
 ## Issue format (must be followed)
 Title:
