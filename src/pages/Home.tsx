@@ -31,6 +31,7 @@ export default function Home() {
     [entitlement]
   );
   const isCreateLimitReached = !premiumActive && items.length >= FREE_CARD_LIMIT;
+  const normalizedQuery = query.trim().toLowerCase();
 
   const tagSummaries = useMemo(() => {
     const counts = new Map<string, number>();
@@ -52,26 +53,30 @@ export default function Home() {
   }, [items]);
 
   const filteredTrails = useMemo(() => {
-    const normalized = query.trim().toLowerCase();
-
     return items.filter((trail) => {
       const queryMatch =
-        !normalized ||
-        trail.title.toLowerCase().includes(normalized) ||
-        trail.subtitle.toLowerCase().includes(normalized) ||
-        trail.tags.some((tag) => tag.toLowerCase().includes(normalized));
+        !normalizedQuery ||
+        trail.title.toLowerCase().includes(normalizedQuery) ||
+        trail.subtitle.toLowerCase().includes(normalizedQuery) ||
+        trail.tags.some((tag) => tag.toLowerCase().includes(normalizedQuery));
       const selectedTagMatch = selectedTags.every((selectedTag) =>
         trail.tags.some((tag) => tag.toLowerCase() === selectedTag)
       );
 
       return queryMatch && selectedTagMatch;
     });
-  }, [items, query, selectedTags]);
+  }, [items, normalizedQuery, selectedTags]);
+  const hasActiveFilters = normalizedQuery.length > 0 || selectedTags.length > 0;
 
   function toggleTag(tag: string) {
     setSelectedTags((prev) =>
       prev.includes(tag) ? prev.filter((value) => value !== tag) : [...prev, tag]
     );
+  }
+
+  function clearFilters() {
+    setQuery("");
+    setSelectedTags([]);
   }
 
   function closeModal() {
@@ -161,12 +166,23 @@ export default function Home() {
       </section>
 
       <section className="rounded-3xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-zinc-700 dark:bg-zinc-800">
-        <label
-          htmlFor="trail-search"
-          className="mb-2 block text-sm font-medium text-zinc-700 dark:text-zinc-300"
-        >
-          Search
-        </label>
+        <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
+          <label
+            htmlFor="trail-search"
+            className="text-sm font-medium text-zinc-700 dark:text-zinc-300"
+          >
+            Search
+          </label>
+          {hasActiveFilters && (
+            <Button
+              variant="secondary"
+              onClick={clearFilters}
+              className="px-3 py-1.5 text-xs"
+            >
+              Clear filters
+            </Button>
+          )}
+        </div>
         <input
           id="trail-search"
           type="text"
@@ -181,15 +197,6 @@ export default function Home() {
             <p className="text-xs font-medium text-zinc-600 dark:text-zinc-300">
               Tags
             </p>
-            {selectedTags.length > 0 && (
-              <button
-                type="button"
-                onClick={() => setSelectedTags([])}
-                className="text-xs text-zinc-500 underline hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200"
-              >
-                Clear
-              </button>
-            )}
           </div>
 
           {tagSummaries.length === 0 ? (
