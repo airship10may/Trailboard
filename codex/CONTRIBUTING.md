@@ -48,12 +48,13 @@ Codex is responsible for implementation, ensuring the project builds successfull
 - Do NOT use force-push unless explicitly requested.
 - If `gh auth`, `git push`, or `gh pr create` fails, stop and report the failure clearly. Provide the PR body text so a human can complete only the blocked external step.
 - After the PR is created, output the work summary using the PR template sections(.github/PULL_REQUEST_TEMPLATE.md):
-  - Summary
-  - What changed
-  - How to verify
-  - Scope / Out of scope
-  - Risks / trade-offs
-  - Follow-ups (if any)
-  - Open Questions (if any)
+## PR body output must include (in Japanese)
+- 概要 (what & why)
+- 変更内容/内容詳細 (bullet list)
+- 検証方法 (exact commands + manual steps)
+- スコープ / スコープ外
+- リスク / トレードオフ
+- フォローアップ (if any)
+- 未解決の質問 (if any)
 
 `./scripts/publish_commit.sh` may remain as a human fallback, but it is no longer the standard Codex workflow.
