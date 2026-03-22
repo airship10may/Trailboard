@@ -31,6 +31,7 @@ export default function Home() {
     [entitlement]
   );
   const isCreateLimitReached = !premiumActive && items.length >= FREE_CARD_LIMIT;
+  const normalizedQuery = query.trim().toLowerCase();
 
   const tagSummaries = useMemo(() => {
     const counts = new Map<string, number>();
@@ -52,22 +53,20 @@ export default function Home() {
   }, [items]);
 
   const filteredTrails = useMemo(() => {
-    const normalized = query.trim().toLowerCase();
-
     return items.filter((trail) => {
       const queryMatch =
-        !normalized ||
-        trail.title.toLowerCase().includes(normalized) ||
-        trail.subtitle.toLowerCase().includes(normalized) ||
-        trail.tags.some((tag) => tag.toLowerCase().includes(normalized));
+        !normalizedQuery ||
+        trail.title.toLowerCase().includes(normalizedQuery) ||
+        trail.subtitle.toLowerCase().includes(normalizedQuery) ||
+        trail.tags.some((tag) => tag.toLowerCase().includes(normalizedQuery));
       const selectedTagMatch = selectedTags.every((selectedTag) =>
         trail.tags.some((tag) => tag.toLowerCase() === selectedTag)
       );
 
       return queryMatch && selectedTagMatch;
     });
-  }, [items, query, selectedTags]);
-  const hasActiveFilters = query.trim().length > 0 || selectedTags.length > 0;
+  }, [items, normalizedQuery, selectedTags]);
+  const hasActiveFilters = normalizedQuery.length > 0 || selectedTags.length > 0;
 
   function toggleTag(tag: string) {
     setSelectedTags((prev) =>
